@@ -4,6 +4,13 @@ CREATE TABLE Departments (
     CONSTRAINT pk_departments PRIMARY KEY (Department_ID)
 );
 
+CREATE TABLE Admins (
+    admin_id INT NOT NULL AUTO_INCREMENT,
+    password_hash VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_admins PRIMARY KEY (admin_id)
+) AUTO_INCREMENT = 3000;
+
+
 CREATE TABLE Users (
     User_ID INT NOT NULL AUTO_INCREMENT,
     Email VARCHAR(255) NOT NULL,
