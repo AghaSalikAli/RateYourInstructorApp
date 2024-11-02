@@ -7,7 +7,7 @@ const port = process.env.PORT || 8000;
 const app = express();
 
 //Routes
-app.use('/departments', departmentRoutes);
-app.use('/instructor/', instructorRoutes)
+app.use('/api/departments', departmentRoutes);
+app.use('/api/instructor/', instructorRoutes)
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

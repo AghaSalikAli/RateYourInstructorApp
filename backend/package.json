@@ -1,11 +1,11 @@
 {
   "name": "nodeexpresscc",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node --watch --env-file=.env app.js"
+    "start": "node server.js",
+    "dev": "node --watch --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
