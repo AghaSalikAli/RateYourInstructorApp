@@ -10,30 +10,4 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 }).promise();
 
-//get all departments
-export async function getDepartments() { 
-    const [rows] = await pool.query(`
-        SELECT *
-        FROM Departments`);
-    return rows;
-}
-
-//get instructors of particular department
-export async function getDepartment(id) {
-    const[rows] = await pool.query(`
-        SELECT *
-        FROM Instructors
-        WHERE
-        department_ID = ?`,[id]);
-        return rows;
-}
-
-//get an instructor profile
-export async function getInstructor(id) {
-    const[rows] = await pool.query(`
-        SELECT *
-        FROM Instructors
-        WHERE
-        Instructor_ID = ?`, [id]);
-        return rows;
-}
+export default pool;

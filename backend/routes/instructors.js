@@ -2,12 +2,8 @@ import express from "express";
 
 const router = express.Router();
 
-import {getInstructor} from '../database.js';
+import {getInstructor} from '../dbqueries/instructorsdb.js';
 
-//no such page handling
-router.get('/', (req,res) => {
-    res.status(404).send({msg: `404 page not found.`});
-})
 
 //Get one Instructor (using req.params)
 router.get('/:id', async (req,res) => {

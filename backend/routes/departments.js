@@ -2,13 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-import {getDepartment, getDepartments} from '../database.js';
+import {getDepartment, getDepartments} from '../dbqueries/departmentsdb.js';
 
 
 //Get all departments
 router.get('/', async (req,res) => {
     const departments = await getDepartments();
-    res.json(departments);
+    res.status(200).json(departments);
 });
 
 //Get all Instructors from one Department (using req.params)
