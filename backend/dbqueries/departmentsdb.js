@@ -8,12 +8,21 @@ export async function getDepartments() {
     return rows;
 }
 
-//get instructors of particular department
+//get instructors for a department
 export async function getDepartment(id) {
-    const[rows] = await pool.query(`
-        SELECT *
-        FROM Instructors
-        WHERE
-        department_ID = ?`,[id]);
-        return rows;
+    const [rows] = await pool.query(`
+        SELECT 
+            d.Department_Name,
+            i.Instructor_Name,
+            i.Faculty_Type
+        FROM 
+            Departments d
+        JOIN 
+            Instructors i
+        ON 
+            d.Department_ID = i.Department_ID
+        WHERE 
+            d.Department_ID = ?
+    `, [id]);
+    return rows;
 }

@@ -4,6 +4,7 @@ import Signin from './pages/signin';
 import Signup from './pages/signup';
 import Departments from './pages/departments';
 import Search from './pages/search';
+import DepartmentDetails from "./pages/departmentDetails";
 import './styles/App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/search" element={<Search />} />
           <Route path="/departments" element={<Departments />} />
+          <Route path="/departments/:id" element={<DepartmentDetails />} />
         </Routes>
       </BrowserRouter>
     </div>

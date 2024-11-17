@@ -1,0 +1,56 @@
+.department-details {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.instructors-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the left */
+    gap: 15px; /* Add spacing between cards */
+    max-width: 1200px; /* Set a max width for better alignment */
+}
+
+.instructor-card {
+    background: linear-gradient(135deg, #f0f0f0, #ffffff);
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 220px; /* Slightly wider for better balance */
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.instructor-card:hover {
+    transform: translateY(-5px); /* Adds a hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.instructor-card h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #007BFF;
+}
+
+.instructor-card p {
+    margin: 8px 0 0;
+    color: #555;
+    font-size: 14px;
+}
