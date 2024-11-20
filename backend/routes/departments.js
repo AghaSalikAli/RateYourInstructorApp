@@ -14,13 +14,16 @@ router.get('/', async (req,res) => {
 // Get all Instructors from one Department
 router.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        return res.status(400).json({ msg: "Invalid department ID." });
+    }
 
     try {
         const deptInstructors = await getDepartment(id);
 
         // For departments that do not exist
         if (deptInstructors.length === 0) {
-            return res.status(404).send({ msg: `No instructors found for department ID ${id}.` });
+            return res.status(404).json({ msg: `No instructors found for department ID ${id}.` });
         }
 
         // If instructors are found, send them in the response

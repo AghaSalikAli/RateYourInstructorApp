@@ -7,3 +7,9 @@ GetUserByEmail
 
 InsertUser
 - Used to register a user email with hashed_password
+
+GetAllDepartments
+- Used to get all departments 
+
+GetDepartmentInstructors
+- Used to get all instructors in a particular department
