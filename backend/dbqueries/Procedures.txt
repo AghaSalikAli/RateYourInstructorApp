@@ -1,0 +1,9 @@
+GetInstructor
+- To extract an instructors profile
+
+GetUserByEmail
+- Used for login to check if user email exists
+- If yes then compare the hashed_password and authenticate
+
+InsertUser
+- Used to register a user email with hashed_password

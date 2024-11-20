@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
     try {
         const deptInstructors = await getDepartment(id);
 
-        // If no instructors are found for the department
+        // For departments that do not exist
         if (deptInstructors.length === 0) {
             return res.status(404).send({ msg: `No instructors found for department ID ${id}.` });
         }
@@ -27,7 +27,6 @@ router.get('/:id', async (req, res) => {
         return res.status(200).json(deptInstructors);
 
     } catch (error) {
-        // Handle any error that occurs during the query
         console.error("Error fetching department instructors:", error);
         return res.status(500).send({ msg: "An error occurred while fetching department data." });
     }

@@ -23,6 +23,6 @@ export async function getDepartment(id) {
             d.Department_ID = i.Department_ID
         WHERE 
             d.Department_ID = ?
-    `, [id]);
+        ORDER BY i.Instructor_Name`, [id]);
     return rows;
 }

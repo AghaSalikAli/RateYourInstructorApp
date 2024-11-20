@@ -7,22 +7,31 @@ import {registerUser, loginUser} from '../dbqueries/usersdb.js';
 
 //register a user
 router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-    
-    try {
-      const hashedPassword = await bcrypt.hash(password, 5);
-      const newUser = await registerUser(email, hashedPassword);
-      res.json(newUser);
-    } catch (error) {
-      // Handle database error (e.g., duplicate email)
-      if (error.code === 'ER_DUP_ENTRY') {
-        return res.status(400).json({ message: 'User already exists' });
+  const { email, password } = req.body;
+  
+  try {
+      // Check if a user with the given email already exists
+      const existingUser = await loginUser(email);
+      
+      if (existingUser.length > 0) {
+          //Return an error
+          return res.status(400).json({ message: 'User already exists' });
       }
-      // If it's some other error, log it and send a generic error message
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 5);
+
+      // Register the new user using the InsertUser stored procedure
+      const newUser = await registerUser(email, hashedPassword);
+      
+
+      res.json({ message: 'User registered successfully', newUser });
+  } catch (error) {
+      // Handle database or other errors
       console.error(error);
       res.status(500).json({ message: 'Something went wrong, please try again' });
-    }
-  });
+  }
+});
 
 //login a user
 router.post('/login', async (req,res) => {

@@ -18,7 +18,7 @@ const Signin = () => {
     // Validate fields
     let valid = true;
 
-    if (!email || !email.includes('@')) {
+    if (!email || !email.includes("@khi.iba.edu.pk")) {
       setEmailError(true);
       valid = false;
     } else {
@@ -64,7 +64,7 @@ const Signin = () => {
             style={{ height: '38px' }} // Ensure consistent height
           />
           <Form.Control.Feedback type="invalid">
-            Please enter a valid email.
+            Please enter a valid IBA email.
           </Form.Control.Feedback>
         </Form.Group>
 

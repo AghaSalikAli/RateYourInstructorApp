@@ -3,6 +3,26 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    text-align: center;
     flex-direction: column;
+    text-align: center; /* Keep for top-level text alignment */
+}
+
+.App form {
+    text-align: left; /* Override text alignment inside the form */
+    width: 100%; /* Adjust form width as needed */
+    max-width: 400px; /* Optional: limit form width */
+}
+
+label {
+    display: block;
+    text-align: left; /* Ensure labels align to the left */
+    margin-bottom: 0.5rem; /* Optional: Add spacing for better readability */
+}
+
+form .form-group {
+    margin-bottom: 1rem; /* Ensure proper spacing between input fields */
+}
+
+.App input, .App textarea, .App select {
+    text-align: left; /* Ensure text inside inputs aligns to the left */
 }

@@ -25,7 +25,7 @@ CREATE TABLE Instructors (
     Faculty_Type VARCHAR(255) NOT NULL,
     Department_ID INT NOT NULL,
     CONSTRAINT pk_instructors PRIMARY KEY (Instructor_ID),
-    CONSTRAINT Faculty_Type CHECK (Faculty_Type IN ('Full-time', 'Part-time', 'Phd Scholar')),
+    CONSTRAINT Faculty_Type CHECK (Faculty_Type IN ('Full-time', 'Part-time')),
     CONSTRAINT fk_instructors_dept FOREIGN KEY (Department_ID) REFERENCES
     Departments(Department_ID)
 );
