@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import '../styles/departmentDetails.css';
 
@@ -19,6 +19,7 @@ const DepartmentDetails = () => {
                 if (response.data.length > 0) {
                     setDepartmentName(response.data[0].Department_Name); // Set department name
                     setInstructors(response.data.map((instructor) => ({
+                        Instructor_ID: instructor.Instructor_ID, // Add Instructor_ID for linking
                         Instructor_Name: instructor.Instructor_Name,
                         Faculty_Type: instructor.Faculty_Type,
                     }))); // Map and set instructor details
@@ -47,10 +48,12 @@ const DepartmentDetails = () => {
             {error && <p className="error-message">{error}</p>}
             <ul className="instructors-list">
                 {instructors.length > 0 ? (
-                    instructors.map((instructor, index) => (
-                        <li key={index} className="instructor-card">
-                            <h2>{instructor.Instructor_Name}</h2>
-                            <p>{instructor.Faculty_Type}</p>
+                    instructors.map((instructor) => (
+                        <li key={instructor.Instructor_ID} className="instructor-card">
+                            <Link to={`/instructor/${instructor.Instructor_ID}`}>
+                                <h2>{instructor.Instructor_Name}</h2>
+                                <p>{instructor.Faculty_Type}</p>
+                            </Link>
                         </li>
                     ))
                 ) : (

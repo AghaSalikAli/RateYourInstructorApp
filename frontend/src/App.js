@@ -5,6 +5,7 @@ import Signup from './pages/signup';
 import Departments from './pages/departments';
 import Search from './pages/search';
 import DepartmentDetails from "./pages/departmentDetails";
+import InstructorProfile from "./pages/instructorProfile";
 import './styles/App.css';
 
 function App() {
@@ -17,7 +18,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/search" element={<Search />} />
           <Route path="/departments" element={<Departments />} />
-          <Route path="/departments/:id" element={<DepartmentDetails />} />
+          <Route path="/department/:id" element={<DepartmentDetails />} />
+          <Route path="/instructor/:id" element={<InstructorProfile />} />
+          
+          <Route path="*" element={<h1>Error 404 - PAGE NOT FOUND</h1>} />
         </Routes>
       </BrowserRouter>
     </div>

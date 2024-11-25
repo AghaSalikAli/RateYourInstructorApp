@@ -28,7 +28,7 @@ const Departments = () => {
             <ul className="department-cards">
                 {departments.map((department) => (
                     <li key={department.Department_ID} className="department-card">
-                        <a href={`/departments/${department.Department_ID}`}>
+                        <a href={`/department/${department.Department_ID}`}>
                             {department.Department_Name}
                         </a>
                     </li>

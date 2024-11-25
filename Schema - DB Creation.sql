@@ -36,8 +36,7 @@ CREATE TABLE Courses (
     Course_Name VARCHAR(255) NOT NULL,
     Department_ID INT NOT NULL,
     CONSTRAINT pk_courses PRIMARY KEY (Course_ID),
-    CONSTRAINT unique_course_code UNIQUE (Course_Code),  -- Ensure Course_Code is unique
-    CONSTRAINT fk_courses_dept FOREIGN KEY (Department_ID) REFERENCES Departments(Department_ID)
+    CONSTRAINT unique_course_code UNIQUE (Course_Code)  -- Ensure Course_Code is unique
 );
 
 CREATE TABLE Reviews (

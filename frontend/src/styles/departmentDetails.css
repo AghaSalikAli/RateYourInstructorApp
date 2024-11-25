@@ -44,6 +44,16 @@ h1 {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+.instructor-card a {
+    text-decoration: none; /* Remove default underline on links */
+    color: inherit; /* Ensure color matches the card's styling */
+    display: block; /* Make the entire card clickable */
+}
+
+.instructor-card a:hover {
+    color: inherit; /* Maintain consistent color on hover */
+}
+
 .instructor-card h2 {
     margin: 0;
     font-size: 18px;
@@ -54,4 +64,20 @@ h1 {
     margin: 8px 0 0;
     color: #555;
     font-size: 14px;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Loading Message */
+.loading-message {
+    color: #888;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
 }
