@@ -2,8 +2,21 @@ import express from "express";
 
 const router = express.Router();
 
-import {getInstructor} from '../dbqueries/instructorsdb.js';
+import {getInstructor, searchInstructor} from '../dbqueries/instructorsdb.js';
 
+
+
+//search for instructors
+router.get('/search', async (req, res) => {
+    const name = req.query.name; // query parameter
+
+    const instructor = await searchInstructor(name);
+    if (instructor.length === 0) {
+        res.status(404).send({ msg: `No teacher with this name was found.` });
+    } else {
+        res.status(200).json(instructor);
+    }
+});
 
 //Get one Instructor (using req.params)
 router.get('/:id', async (req,res) => {

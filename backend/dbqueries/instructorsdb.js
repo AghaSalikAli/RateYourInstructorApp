@@ -8,3 +8,11 @@ export async function getInstructor(id) {
     `, [id]);
         return rows[0];
 }
+
+//search for instructors
+export async function searchInstructor(name) {
+    const[rows] = await pool.query(`
+        CALL SearchInstructor(?);
+    `, [name]);
+        return rows[0];
+}

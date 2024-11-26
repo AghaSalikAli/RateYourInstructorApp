@@ -2,3 +2,4 @@ backend/node_modules
 backend/.env
 frontend/README.md
 .DS_Store
+.vscode
