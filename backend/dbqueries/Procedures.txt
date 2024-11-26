@@ -13,3 +13,6 @@ GetAllDepartments
 
 GetDepartmentInstructors
 - Used to get all instructors in a particular department
+
+SearchInstructor
+- Used for search bar results
