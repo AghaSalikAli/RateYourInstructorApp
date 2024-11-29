@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import '../styles/departments.css';
 
+axios.defaults.withCredentials = true;
+
 const Departments = () => {
     const [departments, setDepartments] = useState([]);
     const [error, setError] = useState("");

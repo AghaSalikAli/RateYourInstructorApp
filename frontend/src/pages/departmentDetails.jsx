@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import '../styles/departmentDetails.css';
 
+axios.defaults.withCredentials = true;
+
 const DepartmentDetails = () => {
     const { id } = useParams(); // Get department ID from the URL
     const [departmentName, setDepartmentName] = useState(""); // State for department name

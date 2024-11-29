@@ -1,18 +1,17 @@
 import express from "express";
-
+import { verifyJWT } from '../JWT.js'; // Import the JWT verification middleware
 const router = express.Router();
 
-import {getDepartment, getDepartments} from '../dbqueries/departmentsdb.js';
+import { getDepartment, getDepartments } from '../dbqueries/departmentsdb.js';
 
-
-//Get all departments
-router.get('/', async (req,res) => {
+// Get all departments (protected route)
+router.get('/', verifyJWT, async (req, res) => {  // Apply JWT verification here
     const departments = await getDepartments();
     res.status(200).json(departments);
 });
 
-// Get all Instructors from one Department
-router.get('/:id', async (req, res) => {
+// Get all Instructors from one Department (protected route)
+router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification here
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         return res.status(400).json({ msg: "Invalid department ID." });

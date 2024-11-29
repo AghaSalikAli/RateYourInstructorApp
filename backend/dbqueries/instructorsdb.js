@@ -9,6 +9,14 @@ export async function getInstructor(id) {
         return rows[0];
 }
 
+//get all courses
+export async function getAllCourses() {
+    const[rows] = await pool.query(`
+        CALL GetAllCourses();
+    `);
+        return rows[0];
+}
+
 //search for instructors
 export async function searchInstructor(name) {
     const[rows] = await pool.query(`

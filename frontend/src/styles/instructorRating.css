@@ -1,0 +1,86 @@
+.InstructorRating {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-header {
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ddd;
+}
+
+.instructor-details {
+    margin-top: 10px;
+}
+
+.instructor-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.faculty-type, .department-name {
+    font-size: 1rem;
+    color: #555;
+}
+
+.Form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.error-message, .success-message {
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 4px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}

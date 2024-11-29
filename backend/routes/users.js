@@ -1,9 +1,11 @@
 import express from "express";
 import bcrypt from 'bcrypt';
+import { generateJWT, verifyJWT } from '../JWT.js';
 
 const router = express.Router();
 
 import {registerUser, loginUser} from '../dbqueries/usersdb.js';
+
 
 //register a user
 router.post('/register', async (req, res) => {
@@ -33,22 +35,50 @@ router.post('/register', async (req, res) => {
   }
 });
 
-//login a user
-router.post('/login', async (req,res) => {
-    const {email, password} = req.body;
+// Login a user
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
     const user = await loginUser(email);
-    console.log(user);
+  
     if (user.length === 0) {
-        res.status(401).json({message: "User does not exist"});
-        return;
+      return res.status(401).json({ message: "User does not exist" });
     }
+  
     const userPassword = user[0].Password_hash;
     const passwordMatch = await bcrypt.compare(password, userPassword);
+  
     if (!passwordMatch) {
-        res.status(401).json({message: "Invalid password"});
-        return;
+      return res.status(401).json({ message: "Invalid password" });
     }
-    res.json({message: "Login successful"});
-});
+  
+    // Generate JWT token
+    const token = generateJWT(user[0]); // Pass the user data to generate JWT
+  
+    // Store JWT in a cookie
+    res.cookie('token', token, {
+      httpOnly: true, // Can't be accessed via JavaScript
+       secure: true,
+    //   maxAge: 3600000, // 1 hour
+       sameSite: 'None',
+    });
+  
+    res.json({ message: "Login successful" });
+  });
+  
+  // Logout a user
+  router.post('/logout', (req, res) => {
+    res.clearCookie('token'); // Clear the JWT token cookie
+    res.json({ message: 'Logged out successfully' });
+  });
 
+//check if valid cookie
+router.get('/authenticated', verifyJWT, (req, res) => {
+    // Check if the user is authenticated
+    if (req.user) {
+      res.json({ authenticated: true });
+    } else {
+      res.json({ authenticated: false });
+    }
+  });
+  
 export default router;

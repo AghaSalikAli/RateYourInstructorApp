@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/search.css'; // Reference to the stylesheet
 
+axios.defaults.withCredentials = true;
+
 const Search = () => {
     const [query, setQuery] = useState(''); // State for user input
     const [results, setResults] = useState([]); // State for search results

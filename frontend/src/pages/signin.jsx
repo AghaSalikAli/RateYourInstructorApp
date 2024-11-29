@@ -3,6 +3,8 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
+
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

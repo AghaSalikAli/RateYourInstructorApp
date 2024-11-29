@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../styles/instructorProfile.css";
 
+axios.defaults.withCredentials = true;
+
 const InstructorProfile = () => {
     const { id } = useParams(); // Get the instructor ID from the URL
     const [instructor, setInstructor] = useState(null); // State for instructor details
