@@ -1,28 +1,51 @@
 .App {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     flex-direction: column;
-    text-align: center; /* Keep for top-level text alignment */
+    min-height: 100vh;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.App form {
-    text-align: left; /* Override text alignment inside the form */
-    width: 100%; /* Adjust form width as needed */
-    max-width: 400px; /* Optional: limit form width */
+.App-content {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 60px; /* Space below fixed navbar */
+    padding: 1rem;
+}
+
+/* Global styling for forms and inputs */
+form {
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
 }
 
 label {
     display: block;
-    text-align: left; /* Ensure labels align to the left */
-    margin-bottom: 0.5rem; /* Optional: Add spacing for better readability */
+    text-align: left;
+    margin-bottom: 0.5rem;
 }
 
 form .form-group {
-    margin-bottom: 1rem; /* Ensure proper spacing between input fields */
+    margin-bottom: 1rem;
 }
 
-.App input, .App textarea, .App select {
-    text-align: left; /* Ensure text inside inputs aligns to the left */
+input, textarea, select {
+    text-align: left;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f9fa;
 }

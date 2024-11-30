@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import axios from 'axios';
-
-axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
-
-const isAuthenticated = async () => {
-  try {
-    const response = await axios.get('http://localhost:8000/api/user/authenticated');
-    return response.data.authenticated;  // Return authentication status
-  } catch (error) {
-    if (error.response && error.response.status === 403) {
-      // Token is invalid or missing, return false
-      return false;
-    }
-    console.error(error.response.data);
-    return false;
-  }
-};
+import isAuthenticated from '../authService';  // Import the authentication function
 
 const PrivateRoute = () => {
   const [authStatus, setAuthStatus] = useState(null);  // Track auth status

@@ -44,7 +44,9 @@ const Signin = () => {
       });
 
       console.log(response.data);
+      //reload the page
       navigate('/search');
+      window.location.reload();
     } catch (error) {
       setErrorMessage(error.response ? error.response.data.message : error.message);
       console.error(error.response || error);

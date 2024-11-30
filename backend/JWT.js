@@ -8,7 +8,6 @@ dotenv.config();
 export function generateJWT(user) {
     const payload = { User_ID: user.User_ID, Email: user.Email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }); // Token expires in 1 hour
-    console.log(token);
     return token;
 }
 
