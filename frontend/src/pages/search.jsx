@@ -50,7 +50,7 @@ const Search = () => {
 
     return (
         <div className="search-container">
-            <h1>Search Page</h1>
+            <h1>Search an Instructor</h1>
             <div className="mt-3">
                 <p>
                     View by department? <Link to="/departments">Click here</Link>
@@ -62,21 +62,26 @@ const Search = () => {
                     placeholder="Type an instructor's name..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    className="search-input"
                 />
                 {isLoading && <div className="loading-spinner">Loading...</div>}
             </div>
             <div className="search-results">
                 {error && <p className="error-message">{error}</p>}
-                {results.map((instructor) => (
-                    <Link
-                        key={instructor.Instructor_ID}
-                        to={`/instructor/${instructor.Instructor_ID}`}
-                        className="result-item"
-                    >
-                        <strong>{instructor.Instructor_Name}</strong>
-                        <p>{instructor.Department_Name}</p>
-                    </Link>
-                ))}
+                {results.length > 0 && (
+                    <div className="results-list">
+                        {results.map((instructor) => (
+                            <Link
+                                key={instructor.Instructor_ID}
+                                to={`/instructor/${instructor.Instructor_ID}`}
+                                className="result-item"
+                            >
+                                <strong>{instructor.Instructor_Name}</strong>
+                                <p>{instructor.Department_Name}</p>
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import isAuthenticated from '../authService';  // Import the authentication utility function
 import axios from 'axios';
+import isAuthenticated from '../authService'; // Import the authentication utility function
 
 const Navbar = () => {
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false);
@@ -21,17 +21,16 @@ const Navbar = () => {
       // Send logout request to the backend to clear the session or JWT cookie
       await axios.post('http://localhost:8000/api/user/logout', {}, { withCredentials: true });
       setIsAuthenticatedState(false); // Update state to logged out
-      //reload the page
-      window.location.reload();
+      window.location.reload(); // Reload the page after logout
     } catch (error) {
       console.error("Logout failed", error);
     }
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">MyApp</Link>
+        <Link className="navbar-brand" to="/">RateYourInstructor</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

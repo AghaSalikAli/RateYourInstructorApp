@@ -6,6 +6,7 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
 }
 
 .instructor-header {
@@ -19,9 +20,10 @@
 }
 
 .instructor-name {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #343a40;
 }
 
 .faculty-type, .department-name {
@@ -33,6 +35,11 @@
     margin-bottom: 1.5rem;
 }
 
+/* Align Yes/No radio buttons horizontally */
+.form-check-inline {
+    margin-right: 15px;
+}
+
 label {
     font-size: 1rem;
     font-weight: bold;
@@ -40,27 +47,35 @@ label {
 
 input, textarea, select {
     width: 100%;
-    padding: 10px;
-    border-radius: 4px;
+    padding: 12px;
+    border-radius: 5px;
     border: 1px solid #ccc;
+    font-size: 1rem;
+    color: #343a40;
 }
 
 textarea {
     resize: none;
+    font-size: 1rem;
 }
 
 button {
     width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1.1rem;
     font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 button[type="submit"] {
     background-color: #007bff;
-    color: white;
-    border: none;
 }
 
 button[type="submit"]:hover {
@@ -83,4 +98,92 @@ button[type="submit"]:hover {
 .success-message {
     background-color: #d4edda;
     color: #155724;
+}
+
+/* Make dropdown look better */
+select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style for the form labels */
+.Form-group label {
+    font-size: 1.2rem;
+    color: #343a40;
+}
+
+/* Rating & Difficulty slider styles */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+.error-message {
+    font-size: 0.875rem;
+    color: red;
+}
+
+.success-message {
+    font-size: 0.875rem;
+    color: green;
+}
+
+.guidelines {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f8ff; /* Light blue background to make it stand out */
+    border-left: 4px solid #007bff; /* Blue accent on the left */
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #343a40;
+}
+
+.guidelines p {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #0056b3; /* Slightly darker blue for the main heading text */
+}
+
+.guidelines ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.guidelines li {
+    margin-bottom: 5px;
+    font-size: 0.875rem; /* Slightly smaller for better readability */
+    color: #555; /* Muted text color */
+}
+
+.guidelines li::marker {
+    color: #007bff; /* Blue bullet points */
 }

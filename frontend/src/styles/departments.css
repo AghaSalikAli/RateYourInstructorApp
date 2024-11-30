@@ -1,32 +1,68 @@
+/* Departments Page Styles */
 .departments-list {
-    padding: 20px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 30px;
+    height: 100vh;
+    overflow: auto;
 }
 
+.departments-list h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 30px;
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Department Cards */
 .department-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px;
     list-style-type: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    width: 100%;
+    max-width: 900px;
 }
 
 .department-card {
-    padding: 10px 20px;
-    border: 1px solid #ddd;
+    background-color: white;
+    border: 1px solid #ced4da;
     border-radius: 8px;
-    background-color: #f9f9f9;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .department-card a {
     text-decoration: none;
-    color: #333;
+    color: #343a40;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
+.department-card a:hover {
+    color: #007bff; /* On hover, change color to primary */
+    text-decoration: underline;
+}
+
 .department-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Add responsive adjustments */
+@media (max-width: 600px) {
+    .department-cards {
+        grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
+    }
 }

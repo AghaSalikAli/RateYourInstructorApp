@@ -7,9 +7,8 @@ const Homepage = () => {
         <div className="homepage">
             <h1> 
                 RateYourInstructor
-                <br />
-                Homepage
             </h1>
+            <h3>For Students, By Students</h3>
             <div>
                 <Button variant="primary" as={Link} to="/signin" style={{marginRight: '10px', marginTop: '10px'}}>
                     Sign In

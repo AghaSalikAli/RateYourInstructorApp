@@ -1,83 +1,79 @@
+/* Department Details Page Styles */
 .department-details {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    min-height: 100vh; /* Ensure the section can grow if needed */
-    overflow-y: auto; /* Allow scrolling if content exceeds available space */
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-    position: sticky; /* Keep header at the top while scrolling */
-    top: 0;
-    background: #fff; /* Ensure background for better visibility */
-    z-index: 10; /* Keep it above other content */
-    padding: 10px 0;
-}
-
-.instructors-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
+    background-color: #f8f9fa;
+    padding: 30px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 15px;
-    max-width: 1200px;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: auto;
+}
+
+.department-details h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Instructors List */
+.instructors-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 900px;
 }
 
 .instructor-card {
-    background: linear-gradient(135deg, #f0f0f0, #ffffff);
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 220px;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-}
-
-.instructor-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.instructor-card a {
-    text-decoration: none; /* Remove default underline on links */
-    color: inherit; /* Ensure color matches the card's styling */
-    display: block; /* Make the entire card clickable */
-}
-
-.instructor-card a:hover {
-    color: inherit; /* Maintain consistent color on hover */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .instructor-card h2 {
-    margin: 0;
-    font-size: 18px;
-    color: #007BFF;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 10px;
 }
 
 .instructor-card p {
-    margin: 8px 0 0;
-    color: #555;
-    font-size: 14px;
+    color: #6c757d;
+    font-size: 1rem;
+    margin-bottom: 15px;
 }
 
-/* Error Message */
-.error-message {
-    color: red;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 20px;
+.instructor-card a {
+    text-decoration: none;
+    color: inherit; /* Inherit color for the link */
 }
 
-/* Loading Message */
-.loading-message {
-    color: #888;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 20px;
+.instructor-card a:hover {
+    color: #007bff; /* On hover, change color to primary */
+    text-decoration: underline;
+}
+
+.instructor-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Add responsive adjustments */
+@media (max-width: 600px) {
+    .instructors-list {
+        grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
+    }
 }

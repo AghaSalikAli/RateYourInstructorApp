@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
-import '../styles/instructorRating.css';
+import "../styles/instructorRating.css";
 
 axios.defaults.withCredentials = true;
 
 const InstructorRating = () => {
     const { id } = useParams(); // Get instructor ID from URL params
+    const navigate = useNavigate(); // Hook to navigate to instructor profile after success
     const [instructorDetails, setInstructorDetails] = useState(null); // Store instructor details
     const [error, setError] = useState(false); // Store error state for invalid instructor
-    const [courseId, setCourseId] = useState("");
+    const [courseCode, setCourseCode] = useState("");
     const [courses, setCourses] = useState([]); // Store courses from backend
     const [rating, setRating] = useState(1);
     const [difficulty, setDifficulty] = useState(1);
@@ -64,7 +65,7 @@ const InstructorRating = () => {
 
         // Validation for all required fields
         if (
-            !courseId ||
+            !courseCode ||
             !rating ||
             !difficulty ||
             takeAgain === null || // Ensure "Take Again" is selected
@@ -75,8 +76,38 @@ const InstructorRating = () => {
             return;
         }
 
-        // Show success for now (backend integration later)
-        setSuccessMessage("Review submitted successfully!");
+        // Convert 'Yes'/'No' to 1/0 for backend
+        const takeAgainValue = takeAgain === "Yes" ? 1 : 0;
+        const mandatoryAttendanceValue = mandatoryAttendance === "Yes" ? 1 : 0;
+
+        // Submit the review to backend
+        axios
+            .post(`http://localhost:8000/api/instructor/add-rating/${id}`, {
+                course_code: courseCode,
+                grade: grade || null, // Send null if grade is not provided
+                rating: rating,
+                difficulty_level: difficulty,
+                take_again: takeAgainValue,
+                mandatory_attendance: mandatoryAttendanceValue,
+                review_text: reviewText,
+            })
+            .then((response) => {
+                setSuccessMessage("Review submitted successfully!");
+
+                // Wait for 2 seconds before redirecting
+                setTimeout(() => {
+                    navigate(`/instructor/${id}`); // Redirect to the instructor's profile page
+                }, 2000);
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    // Check for duplicate review error from backend
+                    setErrorMessage(error.response.data.error); // Display backend error message
+                } else {
+                    // General error
+                    setErrorMessage("Failed to submit review. Please try again.");
+                }
+            });
     };
 
     if (error) {
@@ -95,8 +126,10 @@ const InstructorRating = () => {
             {instructorDetails ? (
                 <div className="instructor-header">
                     <div className="instructor-details">
-                        <p className="instructor-name">Rating: <b>{instructorDetails.Instructor_Name}</b></p>
-                        <p className="faculty-type">{instructorDetails.Faculty_Type} Faculty</p>
+                        <p className="instructor-name">
+                            Rating: <b>{instructorDetails.Instructor_Name}</b>
+                        </p>
+                        <p className="faculty-type">{instructorDetails.Faculty_Type}</p>
                         <p className="department-name">Department of {instructorDetails.Department_Name}</p>
                     </div>
                 </div>
@@ -112,14 +145,14 @@ const InstructorRating = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        value={courseId}
-                        onChange={(e) => setCourseId(e.target.value)}
+                        value={courseCode}
+                        onChange={(e) => setCourseCode(e.target.value)}
                         style={{ maxHeight: "150px", overflowY: "scroll" }} // Limit dropdown height
                     >
                         <option value="">Select a course</option>
                         {courses.map((course, index) => (
-                            <option key={index} value={course.course_code}>
-                                ({course.course_code}) {course.course_name}
+                            <option key={index} value={course.Course_Code}>
+                                ({course.Course_Code}) {course.Course_Name}
                             </option>
                         ))}
                     </Form.Control>
@@ -131,12 +164,14 @@ const InstructorRating = () => {
                         Rating (1-5) <span style={{ color: "red" }}>*</span>
                     </Form.Label>
                     <Form.Control
-                        type="number"
+                        type="range"
                         min="1"
                         max="5"
+                        step="1"
                         value={rating}
                         onChange={(e) => setRating(parseInt(e.target.value))}
                     />
+                    <div>Selected Rating: {rating}</div>
                 </Form.Group>
 
                 {/* Difficulty Level (1-5) */}
@@ -145,35 +180,39 @@ const InstructorRating = () => {
                         Difficulty Level (1-5) <span style={{ color: "red" }}>*</span>
                     </Form.Label>
                     <Form.Control
-                        type="number"
+                        type="range"
                         min="1"
                         max="5"
+                        step="1"
                         value={difficulty}
                         onChange={(e) => setDifficulty(parseInt(e.target.value))}
                     />
+                    <div>Selected Difficulty: {difficulty}</div>
                 </Form.Group>
 
                 {/* Take Again (Yes/No) */}
                 <Form.Group className="mb-3" controlId="formTakeAgain">
                     <Form.Label>
-                        Would you take this instructor again? <span style={{ color: "red" }}>*</span>
+                        Would you choose this instructor again? <span style={{ color: "red" }}>*</span>
                     </Form.Label>
                     <div>
                         <Form.Check
-                            inline
                             type="radio"
                             label="Yes"
                             name="takeAgain"
-                            checked={takeAgain === true}
-                            onChange={() => setTakeAgain(true)}
+                            value="Yes"
+                            checked={takeAgain === "Yes"}
+                            onChange={(e) => setTakeAgain(e.target.value)}
+                            inline
                         />
                         <Form.Check
-                            inline
                             type="radio"
                             label="No"
                             name="takeAgain"
-                            checked={takeAgain === false}
-                            onChange={() => setTakeAgain(false)}
+                            value="No"
+                            checked={takeAgain === "No"}
+                            onChange={(e) => setTakeAgain(e.target.value)}
+                            inline
                         />
                     </div>
                 </Form.Group>
@@ -185,20 +224,22 @@ const InstructorRating = () => {
                     </Form.Label>
                     <div>
                         <Form.Check
-                            inline
                             type="radio"
                             label="Yes"
                             name="mandatoryAttendance"
-                            checked={mandatoryAttendance === true}
-                            onChange={() => setMandatoryAttendance(true)}
+                            value="Yes"
+                            checked={mandatoryAttendance === "Yes"}
+                            onChange={(e) => setMandatoryAttendance(e.target.value)}
+                            inline
                         />
                         <Form.Check
-                            inline
                             type="radio"
                             label="No"
                             name="mandatoryAttendance"
-                            checked={mandatoryAttendance === false}
-                            onChange={() => setMandatoryAttendance(false)}
+                            value="No"
+                            checked={mandatoryAttendance === "No"}
+                            onChange={(e) => setMandatoryAttendance(e.target.value)}
+                            inline
                         />
                     </div>
                 </Form.Group>
@@ -225,26 +266,40 @@ const InstructorRating = () => {
                 {/* Review Text */}
                 <Form.Group className="mb-3" controlId="formReviewText">
                     <Form.Label>
-                        Review (max 350 characters) <span style={{ color: "red" }}>*</span>
+                        Review <span style={{ color: "red" }}>*</span>
                     </Form.Label>
                     <Form.Control
                         as="textarea"
-                        rows={3}
-                        maxLength={350}
+                        rows={10}
                         value={reviewText}
-                        onChange={(e) => setReviewText(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length <= 350) {
+                                setReviewText(e.target.value);
+                            }
+                        }}
                     />
+                    <div className="character-count">
+                        {reviewText.length}/350
+                    </div>
+                    <div className="guidelines">
+                        <p>Please follow these guidelines for your review:</p>
+                        <ul>
+                            <li>Be respectful and avoid offensive language.</li>
+                            <li>Focus on the instructor’s teaching and relevant experiences.</li>
+                            <li>Keep the review concise and meaningful.</li>
+                        </ul>
+                    </div>
                 </Form.Group>
 
-                {/* Error and Success Messages */}
-                {errorMessage && <div className="error-message" style={{ color: "red" }}>{errorMessage}</div>}
-                {successMessage && <div className="success-message" style={{ color: "green" }}>{successMessage}</div>}
-
                 {/* Submit Button */}
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="primary" type="submit" block>
+                    Submit Review
                 </Button>
             </Form>
+
+            {/* Error and Success Messages */}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
         </div>
     );
 };
