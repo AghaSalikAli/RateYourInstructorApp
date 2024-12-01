@@ -114,9 +114,6 @@ router.get('/stats/:id', verifyJWT, async (req, res) => {
 
 //delete a review
 router.delete('/delete-review', async (req, res) => {
-    // if (req.user.IsAdmin===0) {
-    //     return res.status(403).json({ error: 'You are not authorized to delete reviews.' });
-    // }
     const { user_id, instructor_id, course_code } = req.body;
 
     try {
