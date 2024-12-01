@@ -1,7 +1,8 @@
 import express from "express";
 import { verifyJWT } from '../JWT.js'; 
 import { Filter } from 'bad-words';
-import { getInstructor, searchInstructor, getAllCourses, addRating, checkDuplicate } from '../dbqueries/instructorsdb.js';
+import { getInstructor, searchInstructor, getAllCourses, addRating,
+     checkDuplicate, getInstructorCourses, getInstructorReviews, getInstructorStats } from '../dbqueries/instructorsdb.js';
 
 
 const router = express.Router();
@@ -55,6 +56,56 @@ router.post('/add-rating/:id', verifyJWT, async (req, res) => {
         res.status(500).send({ msg: `Error adding review.` });
     }
 });
+
+// Get Instructor Course List (protected route)
+router.get('/course-list/:id', async (req, res) => { 
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
+        return;
+    }
+    const courses = await getInstructorCourses(id);
+
+    if (courses.length === 0) {
+        res.status(404).send({ msg: `None.` });
+    } else {
+        res.status(200).json(courses);
+    }
+});
+
+// Get Instructor Reviews (protected route)
+router.get('/reviews/:id', async (req, res) => { 
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
+        return;
+    }
+    const course_code = req.body.course_code // query parameter
+    const reviews = await getInstructorReviews(id, course_code);
+
+    if (reviews.length === 0) {
+        res.status(404).send({ msg: `No reviews found.` });
+    } else {
+        res.status(200).json(reviews);
+    }
+});
+
+//get instructor stats
+router.get('/stats/:id', async (req, res) => { 
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
+        return;
+    }
+    const stats = await getInstructorStats(id);
+
+    if (stats.length === 0) {
+        res.status(404).send({ msg: `No stats found.` });
+    } else {
+        res.status(200).json(stats);
+    }
+});
+
 
 // Get Instructor Profile (protected route)
 router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification here

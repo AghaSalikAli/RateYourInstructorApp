@@ -40,3 +40,32 @@ export async function checkDuplicate(user_id, instructor_id, course_code) {
     `, [user_id, instructor_id, course_code]);
         return rows[0];
 }
+
+//get instructor courses
+export async function getInstructorCourses(instructor_id) {
+    const[rows] = await pool.query(`
+        CALL GetInstructorCourses(?);
+    `, [instructor_id]);
+        return rows[0];
+}
+
+//get instructor reviews
+export async function getInstructorReviews(instructor_id, course_code) {
+    if (course_code===undefined) {
+        course_code = null;
+    }
+    const[rows] = await pool.query(`
+        CALL GetInstructorReviews(?, ?);
+    `, [instructor_id, course_code]);
+        return rows[0];
+}
+
+//get instructor stats
+export async function getInstructorStats(instructor_id) {
+    const[rows] = await pool.query(`
+        CALL GetInstructorStats(?);
+    `, [instructor_id]);
+        const stats = rows[0];
+        const distribution = rows[1];
+        return {stats, distribution};
+}
