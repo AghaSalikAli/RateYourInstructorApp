@@ -1,5 +1,3 @@
-// instructorProfile.js
-
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -135,14 +133,14 @@ const InstructorProfile = () => {
                     <div className="instructor-stats">
                         <h2>Instructor Stats</h2>
                         <p>
+                            Based on <strong> {stats.total_reviews} Total Reviews</strong>
+                        </p>
+                        <p>
                             <strong>Average Rating:</strong> {stats.avg_rating} / 5
                         </p>
                         <p>
                             <strong>Average Difficulty Level:</strong>{" "}
                             {stats.avg_difficulty_level} / 5
-                        </p>
-                        <p>
-                            <strong>Total Reviews:</strong> {stats.total_reviews}
                         </p>
                     </div>
                     <div className="rate-button-container">
@@ -175,7 +173,25 @@ const InstructorProfile = () => {
                                         display: false,
                                     },
                                 },
-                                scales: { x: { beginAtZero: true } },
+                                scales: {
+                                    x: {
+                                        beginAtZero: true,
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            stepSize: 1,
+                                            precision: 0,
+                                            // Optionally, you can add a callback to ensure only integers are displayed
+                                            callback: function(value) {
+                                                if (Number.isInteger(value)) {
+                                                    return value;
+                                                }
+                                                return null;
+                                            },
+                                        },
+                                    },
+                                },
                             }}
                         />
                     </div>
@@ -219,14 +235,14 @@ const InstructorProfile = () => {
                                     <strong>Mandatory Attendance:</strong>{" "}
                                     {review.mandatory_attendance ? "Yes" : "No"}
                                 </p>
-                                <p>
-                                    <strong>Review:</strong> {review.review_text}
-                                </p>
                                 {review.grade && (
                                     <p>
                                         <strong>Grade:</strong> {review.grade}
                                     </p>
                                 )}
+                                <p>
+                                    <strong>Review:</strong> {review.review_text}
+                                </p>
                             </div>
                         ))
                     )}
