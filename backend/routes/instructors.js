@@ -57,41 +57,47 @@ router.post('/add-rating/:id', verifyJWT, async (req, res) => {
     }
 });
 
-// Get Instructor Course List (protected route)
+// Get Instructor Courses (protected route)
 router.get('/course-list/:id', async (req, res) => { 
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
-        res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
-        return;
+        return res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
     }
+    
     const courses = await getInstructorCourses(id);
 
     if (courses.length === 0) {
-        res.status(404).send({ msg: `None.` });
+        // Returning an empty array instead of an error when no courses are found
+        return res.status(200).json([]);
     } else {
-        res.status(200).json(courses);
+        return res.status(200).json(courses);
     }
 });
 
 // Get Instructor Reviews (protected route)
-router.get('/reviews/:id', async (req, res) => { 
+router.get('/reviews/:id', verifyJWT, async (req, res) => { 
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
         return;
     }
-    const course_code = req.body.course_code // query parameter
-    const reviews = await getInstructorReviews(id, course_code);
 
-    if (reviews.length === 0) {
-        res.status(404).send({ msg: `No reviews found.` });
-    } else {
-        res.status(200).json(reviews);
+    const course_code = req.query.course_code || null; // Get course_code from query params
+    try {
+        const reviews = await getInstructorReviews(id, course_code);
+
+        if (reviews.length === 0) {
+            res.status(200).json([]);
+        } else {
+            res.status(200).json(reviews);
+        }
+    } catch (error) {
+        res.status(500).send({ msg: `Server error: ${error.message}` });
     }
 });
 
 //get instructor stats
-router.get('/stats/:id', async (req, res) => { 
+router.get('/stats/:id', verifyJWT, async (req, res) => { 
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         res.status(400).send({ msg: `Invalid ID. ID must be a number.` });

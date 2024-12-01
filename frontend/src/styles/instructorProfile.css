@@ -1,17 +1,18 @@
 /* Instructor Profile Styling */
 .instructor-profile-container {
-    display: flex; /* Flex container to align items side by side */
-    justify-content: space-between; /* Ensure space between the sections */
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
-    background-color: #f8f9fa;  /* Light background for the profile */
+    background-color: #f8f9fa;
 }
 
 .instructor-details {
-    flex: 1; /* Allow this section to take up remaining space */
+    flex: 1;
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    margin-right: 20px;
 }
 
 .instructor-details h1 {
@@ -24,13 +25,8 @@
     margin-bottom: 10px;
 }
 
-.instructor-stats-and-graph {
-    flex: 1.5; /* Allow the stats + graph section to take up more space */
-    padding: 20px;
-}
-
 .instructor-stats {
-    margin-bottom: 20px;
+    margin-top: 30px;
 }
 
 .instructor-stats h2 {
@@ -43,16 +39,43 @@
     margin-bottom: 10px;
 }
 
+/* Rate button styling */
+.rate-button-container {
+    margin-top: 20px;
+    text-align: left; /* Align the button to the left */
+}
+
+.rate-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.rate-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.rating-distribution {
+    flex: 1;
+    margin-left: 20px;
+}
+
 .chart-container {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .chart-container canvas {
-    max-height: 400px;  /* Prevent the chart from becoming too large */
+    max-height: 500px;
 }
 
 .error-message {
@@ -62,16 +85,45 @@
     font-weight: bold;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .instructor-profile-container {
-        flex-direction: column; /* Stack the elements on smaller screens */
-        align-items: center; /* Center the items */
-    }
-
-    .instructor-details,
-    .instructor-stats-and-graph {
-        width: 100%; /* Make each section take full width */
-        margin-bottom: 20px;
-    }
+.reviews-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
+
+.course-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.review-card {
+    flex: 1 1 calc(33% - 20px);
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+}
+
+.review-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.review-card p {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
@@ -13,7 +13,6 @@ import {
 } from "chart.js";
 import "../styles/instructorProfile.css";
 
-// Registering the chart components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 axios.defaults.withCredentials = true;
@@ -21,29 +20,77 @@ axios.defaults.withCredentials = true;
 const InstructorProfile = () => {
     const { id } = useParams(); // Get the instructor ID from the URL
     const [instructor, setInstructor] = useState(null); // State for instructor details
-    const [stats, setStats] = useState(null); // State for instructor stats (average rating, difficulty, etc.)
+    const [stats, setStats] = useState(null); // State for instructor stats
     const [distribution, setDistribution] = useState([]); // State for rating distribution
     const [error, setError] = useState(""); // State for error handling
 
-    useEffect(() => {
-        const fetchInstructorData = async () => {
+    const [reviews, setReviews] = useState([]); // State for reviews
+    const [courseList, setCourseList] = useState([]); // State for dropdown options
+    const [selectedCourse, setSelectedCourse] = useState("All"); // State for selected dropdown value
+
+    const fetchReviews = useCallback(
+        async (courseCode = null) => {
             try {
-                // Fetching the instructor's details
-                const instructorResponse = await axios.get(`http://localhost:8000/api/instructor/${id}`);
+                const queryParam = courseCode ? `?course_code=${courseCode}` : "";
+                const response = await axios.get(
+                    `http://localhost:8000/api/instructor/reviews/${id}${queryParam}`
+                );
+                if (response.data.length === 0) {
+                    setReviews([]); // Set empty reviews array if no reviews are found
+                } else {
+                    setReviews(response.data); // Set the reviews if found
+                }
+            } catch (err) {
+                setReviews([]); // Set empty reviews array in case of error
+                setError(err.response?.data?.msg || "Failed to load reviews.");
+            }
+        },
+        [id]
+    );
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const instructorResponse = await axios.get(
+                    `http://localhost:8000/api/instructor/${id}`
+                );
                 setInstructor(instructorResponse.data[0]);
 
-                // Fetching the instructor's stats (rating, difficulty, distribution)
-                const statsResponse = await axios.get(`http://localhost:8000/api/instructor/stats/${id}`);
+                const statsResponse = await axios.get(
+                    `http://localhost:8000/api/instructor/stats/${id}`
+                );
                 setStats(statsResponse.data.stats[0]);
                 setDistribution(statsResponse.data.distribution);
 
+                const coursesResponse = await axios.get(
+                    `http://localhost:8000/api/instructor/course-list/${id}`
+                );
+                setCourseList([
+                    { course_code: "All", course_name: "All Courses" },
+                    ...coursesResponse.data,
+                ]);
+
+                fetchReviews(); // Fetch all reviews initially
             } catch (err) {
-                setError(err.response?.data?.message || "The Instructor you are looking for does not exist.");
+                setError(
+                    err.response?.data?.msg ||
+                        "The Instructor you are looking for does not exist."
+                );
             }
         };
 
-        fetchInstructorData();
-    }, [id]);
+        fetchData();
+    }, [id, fetchReviews]);
+
+    const handleCourseChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedCourse(selectedValue);
+        if (selectedValue === "All") {
+            fetchReviews();
+        } else {
+            fetchReviews(selectedValue);
+        }
+    };
 
     if (error) {
         return <div className="error-message">{error}</div>;
@@ -53,19 +100,18 @@ const InstructorProfile = () => {
         return <div>Loading...</div>;
     }
 
-    // Fill the missing ratings (1 to 5) with 0 counts
-    const ratingCounts = [1, 2, 3, 4, 5].map(rating => {
-        const ratingObj = distribution.find(d => d.rating === rating);
+    // Fill missing ratings
+    const ratingCounts = [1, 2, 3, 4, 5].map((rating) => {
+        const ratingObj = distribution.find((d) => d.rating === rating);
         return ratingObj ? ratingObj.count : 0;
     });
 
-    // Preparing data for the bar chart
     const ratingDistribution = {
-        labels: ["1", "2", "3", "4", "5"], // Labels for the rating
+        labels: ["1", "2", "3", "4", "5"],
         datasets: [
             {
                 label: "Number of Ratings",
-                data: ratingCounts, // Data from the rating distribution
+                data: ratingCounts,
                 backgroundColor: "rgba(75, 192, 192, 0.6)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
@@ -77,62 +123,102 @@ const InstructorProfile = () => {
         <div className="instructor-profile-container">
             <div className="instructor-details">
                 <h1>{instructor.Instructor_Name}</h1>
-                <p><strong>Faculty Type:</strong> {instructor.Faculty_Type}</p>
-                <p><strong>Department:</strong> {instructor.Department_Name}</p>
-            </div>
-
-            <div className="instructor-stats-and-graph">
+                <p>
+                    <strong>Faculty Type:</strong> {instructor.Faculty_Type}
+                </p>
+                <p>
+                    <strong>Department:</strong> {instructor.Department_Name}
+                </p>
                 <div className="instructor-stats">
                     <h2>Instructor Stats</h2>
-                    <p><strong>Average Rating:</strong> {stats.avg_rating} / 5</p>
-                    <p><strong>Average Difficulty Level:</strong> {stats.avg_difficulty_level} / 5</p>
+                    <p>
+                        <strong>Average Rating:</strong> {stats.avg_rating} / 5
+                    </p>
+                    <p>
+                        <strong>Average Difficulty Level:</strong>{" "}
+                        {stats.avg_difficulty_level} / 5
+                    </p>
+                    <p>
+                        <strong>Total Reviews:</strong> {stats.total_reviews}
+                    </p>
                 </div>
-
-                <div className="rating-distribution">
-                    <h2>Rating Distribution</h2>
-                    <div className="chart-container">
-                        <Bar
-                            data={ratingDistribution}
-                            options={{
-                                responsive: true,
-                                indexAxis: 'y', // This makes the bar chart horizontal
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: "Rating Distribution",
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: (tooltipItem) => {
-                                                return `Ratings: ${tooltipItem.raw}`;
-                                            },
-                                        },
-                                    },
+                <button
+                    className="rate-button"
+                    onClick={() =>
+                        (window.location.href = `/instructor/add-rating/${id}`)
+                    }
+                >
+                    Rate ➔
+                </button>
+            </div>
+            <div className="rating-distribution">
+                <h2>Rating Distribution</h2>
+                <div className="chart-container">
+                    <Bar
+                        data={ratingDistribution}
+                        options={{
+                            responsive: true,
+                            indexAxis: "y",
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: "Rating Distribution",
                                 },
-                                scales: {
-                                    x: {
-                                        title: {
-                                            display: true,
-                                            text: "Number of Reviews", // Label for x-axis (now the number of reviews)
-                                        },
-                                        beginAtZero: true,
-                                        ticks: {
-                                            stepSize: 1, // Ensures the X-axis has integer steps
-                                            callback: function (value) {
-                                                return Number.isInteger(value) ? value : ''; // Ensure only integers are displayed
-                                            },
-                                        },
-                                    },
-                                    y: {
-                                        title: {
-                                            display: true,
-                                            text: "Rating", // Label for y-axis (now the ratings)
-                                        },
-                                    },
-                                },
-                            }}
-                        />
-                    </div>
+                            },
+                            scales: { x: { beginAtZero: true } },
+                        }}
+                    />
+                </div>
+            </div>
+            <div className="reviews-section">
+                <h2>Reviews</h2>
+                <select
+                    className="course-dropdown"
+                    value={selectedCourse}
+                    onChange={handleCourseChange}
+                >
+                    {courseList.map((course) => (
+                        <option
+                            key={course.course_code}
+                            value={course.course_code}
+                        >
+                            {course.course_name}
+                        </option>
+                    ))}
+                </select>
+                <div className="reviews-container">
+                    {reviews.length === 0 ? (
+                        <p>No reviews available for this instructor.</p>
+                    ) : (
+                        reviews.map((review, index) => (
+                            <div className="review-card" key={index}>
+                                <h3>{review.course_name}</h3>
+                                <p>
+                                    <strong>Rating:</strong> {review.rating} / 5
+                                </p>
+                                <p>
+                                    <strong>Difficulty Level:</strong>{" "}
+                                    {review.difficulty_level} / 5
+                                </p>
+                                <p>
+                                    <strong>Take Again:</strong>{" "}
+                                    {review.take_again ? "Yes" : "No"}
+                                </p>
+                                <p>
+                                    <strong>Mandatory Attendance:</strong>{" "}
+                                    {review.mandatory_attendance ? "Yes" : "No"}
+                                </p>
+                                <p>
+                                    <strong>Review:</strong> {review.review_text}
+                                </p>
+                                {review.grade && (
+                                    <p>
+                                        <strong>Grade:</strong> {review.grade}
+                                    </p>
+                                )}
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>
