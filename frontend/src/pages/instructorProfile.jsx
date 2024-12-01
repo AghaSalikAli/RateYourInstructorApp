@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
@@ -11,6 +11,8 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import { toast, ToastContainer } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify styles
 import "../styles/instructorProfile.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -19,6 +21,8 @@ axios.defaults.withCredentials = true;
 
 const InstructorProfile = () => {
     const { id } = useParams(); // Get the instructor ID from the URL
+    const navigate = useNavigate();
+
     const [instructor, setInstructor] = useState(null); // State for instructor details
     const [stats, setStats] = useState(null); // State for instructor stats
     const [distribution, setDistribution] = useState([]); // State for rating distribution
@@ -27,6 +31,7 @@ const InstructorProfile = () => {
     const [reviews, setReviews] = useState([]); // State for reviews
     const [courseList, setCourseList] = useState([]); // State for dropdown options
     const [selectedCourse, setSelectedCourse] = useState("All"); // State for selected dropdown value
+    const [isAdmin, setIsAdmin] = useState(false); // State for checking if the user is an admin
 
     const fetchReviews = useCallback(
         async (courseCode = null) => {
@@ -40,6 +45,7 @@ const InstructorProfile = () => {
                 } else {
                     setReviews(response.data); // Set the reviews if found
                 }
+                console.log(response.data);
             } catch (err) {
                 setReviews([]); // Set empty reviews array in case of error
                 setError(err.response?.data?.msg || "Failed to load reviews.");
@@ -71,6 +77,12 @@ const InstructorProfile = () => {
                 ]);
 
                 fetchReviews(); // Fetch all reviews initially
+                
+                // Check if the current user is an admin
+                const adminResponse = await axios.get(
+                    "http://localhost:8000/api/user/admin-check"
+                );
+                setIsAdmin(adminResponse.data.admin);
             } catch (err) {
                 setError(
                     err.response?.data?.msg ||
@@ -89,6 +101,27 @@ const InstructorProfile = () => {
             fetchReviews();
         } else {
             fetchReviews(selectedValue);
+        }
+    };
+
+    const handleDeleteReview = async (review) => {
+        const { User_Id, course_code } = review; // Extract user_id and course_code from the review object
+        const instructor_id = id; // Instructor ID is available from the URL
+    
+        try {
+            await axios.delete(`http://localhost:8000/api/instructor/delete-review`, {
+                data: {
+                    user_id: User_Id,
+                    instructor_id: instructor_id,
+                    course_code: course_code,
+                },
+            });
+            toast.success("Review deleted successfully!"); // Show success toast
+            fetchReviews(selectedCourse === "All" ? null : selectedCourse); // Refresh reviews
+        } catch (error) {
+            toast.error(
+                error.response?.data?.msg || "Failed to delete review." // Show error toast
+            );
         }
     };
 
@@ -121,6 +154,7 @@ const InstructorProfile = () => {
 
     return (
         <div className="instructor-profile-container">
+            <ToastContainer position="top-right" autoClose={3000} /> {/* Add ToastContainer */}
             <div className="top-section">
                 <div className="instructor-details">
                     <h1>{instructor.Instructor_Name}</h1>
@@ -144,14 +178,12 @@ const InstructorProfile = () => {
                         </p>
                     </div>
                     <div className="rate-button-container">
-                        <button
-                            className="rate-button"
-                            onClick={() =>
-                                (window.location.href = `/instructor/add-rating/${id}`)
-                            }
-                        >
-                            Rate ➔
-                        </button>
+                    <button
+                        className="rate-button"
+                        onClick={() => navigate(`/instructor/add-rating/${id}`)}
+                    >
+                        Rate ➔
+                    </button>
                     </div>
                 </div>
                 <div className="rating-distribution">
@@ -243,6 +275,14 @@ const InstructorProfile = () => {
                                 <p>
                                     <strong>Review:</strong> {review.review_text}
                                 </p>
+                                {isAdmin && (
+                                    <button
+                                        className="delete-button"
+                                        onClick={() => handleDeleteReview(review)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
                             </div>
                         ))
                     )}

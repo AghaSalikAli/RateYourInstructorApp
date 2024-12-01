@@ -69,3 +69,11 @@ export async function getInstructorStats(instructor_id) {
         const distribution = rows[1];
         return {stats, distribution};
 }
+
+//delete a review
+export async function deleteReview(user_id, instructor_id, course_code) {
+    const[rows] = await pool.query(`
+        CALL DeleteReview(?,?,?);
+    `, [user_id, instructor_id, course_code]);
+        return rows[0];
+}
