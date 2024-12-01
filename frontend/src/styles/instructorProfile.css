@@ -1,18 +1,29 @@
+/* instructorProfile.css */
+
 /* Instructor Profile Styling */
 .instructor-profile-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 20px;
     background-color: #f8f9fa;
+    gap: 20px; /* Add space between sections */
+}
+
+.top-section {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 20px; /* Space between instructor details and rating distribution */
 }
 
 .instructor-details {
-    flex: 1;
+    flex: 1 1 300px; /* Grow and shrink with a base width */
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .instructor-details h1 {
@@ -61,8 +72,16 @@
 }
 
 .rating-distribution {
-    flex: 1;
-    margin-left: 20px;
+    flex: 1 1 300px; /* Grow and shrink with a base width */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.rating-distribution h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
 }
 
 .chart-container {
@@ -86,11 +105,15 @@
 }
 
 .reviews-section {
-    margin-top: 20px;
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+}
+
+.reviews-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
 .course-dropdown {
@@ -104,17 +127,15 @@
 
 .reviews-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
 }
 
 .review-card {
-    flex: 1 1 calc(33% - 20px);
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-width: 250px;
 }
 
 .review-card h3 {
@@ -127,3 +148,16 @@
     margin-bottom: 8px;
 }
 
+/* Responsive Design */
+@media (min-width: 768px) {
+    .reviews-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .review-card {
+        flex: 1 1 calc(33% - 20px);
+        min-width: 250px;
+    }
+}

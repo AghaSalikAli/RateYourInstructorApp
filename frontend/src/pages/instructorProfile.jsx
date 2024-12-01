@@ -1,3 +1,5 @@
+// instructorProfile.js
+
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -121,53 +123,62 @@ const InstructorProfile = () => {
 
     return (
         <div className="instructor-profile-container">
-            <div className="instructor-details">
-                <h1>{instructor.Instructor_Name}</h1>
-                <p>
-                    <strong>Faculty Type:</strong> {instructor.Faculty_Type}
-                </p>
-                <p>
-                    <strong>Department:</strong> {instructor.Department_Name}
-                </p>
-                <div className="instructor-stats">
-                    <h2>Instructor Stats</h2>
+            <div className="top-section">
+                <div className="instructor-details">
+                    <h1>{instructor.Instructor_Name}</h1>
                     <p>
-                        <strong>Average Rating:</strong> {stats.avg_rating} / 5
+                        <strong>Faculty Type:</strong> {instructor.Faculty_Type}
                     </p>
                     <p>
-                        <strong>Average Difficulty Level:</strong>{" "}
-                        {stats.avg_difficulty_level} / 5
+                        <strong>Department:</strong> {instructor.Department_Name}
                     </p>
-                    <p>
-                        <strong>Total Reviews:</strong> {stats.total_reviews}
-                    </p>
+                    <div className="instructor-stats">
+                        <h2>Instructor Stats</h2>
+                        <p>
+                            <strong>Average Rating:</strong> {stats.avg_rating} / 5
+                        </p>
+                        <p>
+                            <strong>Average Difficulty Level:</strong>{" "}
+                            {stats.avg_difficulty_level} / 5
+                        </p>
+                        <p>
+                            <strong>Total Reviews:</strong> {stats.total_reviews}
+                        </p>
+                    </div>
+                    <div className="rate-button-container">
+                        <button
+                            className="rate-button"
+                            onClick={() =>
+                                (window.location.href = `/instructor/add-rating/${id}`)
+                            }
+                        >
+                            Rate ➔
+                        </button>
+                    </div>
                 </div>
-                <button
-                    className="rate-button"
-                    onClick={() =>
-                        (window.location.href = `/instructor/add-rating/${id}`)
-                    }
-                >
-                    Rate ➔
-                </button>
-            </div>
-            <div className="rating-distribution">
-                <h2>Rating Distribution</h2>
-                <div className="chart-container">
-                    <Bar
-                        data={ratingDistribution}
-                        options={{
-                            responsive: true,
-                            indexAxis: "y",
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: "Rating Distribution",
+                <div className="rating-distribution">
+                    <h2>Rating Distribution</h2>
+                    <div className="chart-container">
+                        <Bar
+                            data={ratingDistribution}
+                            options={{
+                                responsive: true,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: "Rating Distribution",
+                                        font: {
+                                            size: 18,
+                                        },
+                                    },
+                                    legend: {
+                                        display: false,
+                                    },
                                 },
-                            },
-                            scales: { x: { beginAtZero: true } },
-                        }}
-                    />
+                                scales: { x: { beginAtZero: true } },
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="reviews-section">
