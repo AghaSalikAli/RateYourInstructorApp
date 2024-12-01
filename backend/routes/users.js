@@ -4,7 +4,7 @@ import { generateJWT, verifyJWT } from '../JWT.js';
 
 const router = express.Router();
 
-import {registerUser, loginUser} from '../dbqueries/usersdb.js';
+import {registerUser, loginUser, registerAdmin} from '../dbqueries/usersdb.js';
 
 
 //register a user
@@ -81,4 +81,42 @@ router.get('/authenticated', verifyJWT, (req, res) => {
     }
   });
   
-export default router;
+//check if user is an admin
+router.get('/admin-check', verifyJWT, (req, res) => {
+    // Check if the user is an admin
+    if (req.user && req.user.IsAdmin===1) {
+      res.json({ admin: true });
+    } else {
+      res.json({ admin: false });
+    }
+  });
+
+//register an admin
+router.post('/register-admin', async (req, res) => {
+    const { email, password } = req.body;
+    
+    try {
+        // Check if a user with the given email already exists
+        const existingUser = await loginUser(email);
+        
+        if (existingUser.length > 0) {
+            //Return an error
+            return res.status(400).json({ message: 'Admin already exists' });
+        }
+  
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 5);
+  
+        // Register the new user using the InsertUser stored procedure
+        const newUser = await registerAdmin(email, hashedPassword);
+        
+  
+        res.json({ message: 'Admin registered successfully', newUser });
+    } catch (error) {
+        // Handle database or other errors
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong, please try again' });
+    }
+  });
+
+  export default router;

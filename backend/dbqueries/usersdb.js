@@ -17,3 +17,12 @@ export async function loginUser(Email) {
 
     return rows[0];
 }
+
+//register an admin
+export async function registerAdmin(Email, Password_hash) {
+    const [rows] = await pool.query(`
+        CALL InsertAdmin(?, ?);
+    `, [Email, Password_hash]);
+
+    return rows;
+}

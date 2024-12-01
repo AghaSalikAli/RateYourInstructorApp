@@ -6,7 +6,7 @@ dotenv.config();
 
 // Function to generate JWT token
 export function generateJWT(user) {
-    const payload = { User_ID: user.User_ID, Email: user.Email };
+    const payload = { User_ID: user.User_ID, Email: user.Email, IsAdmin: user.admin_privileges };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }); // Token expires in 1 hour
     return token;
 }
