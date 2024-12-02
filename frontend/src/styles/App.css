@@ -242,36 +242,3 @@ body {
 .auth-form a:hover {
     text-decoration: underline;
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .homepage h1 {
-        font-size: 2.5rem;
-    }
-
-    .homepage h3 {
-        font-size: 1.2rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .features-section h2 {
-        font-size: 2rem;
-    }
-
-    .homepage button {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .feature-card {
-        padding: 15px;
-    }
-
-    .feature-icon {
-        margin-bottom: 15px;
-    }
-}

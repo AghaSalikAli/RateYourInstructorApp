@@ -9,11 +9,10 @@ const Departments = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        // Fetch departments from the backend
         const fetchDepartments = async () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/departments");
-                setDepartments(response.data); // Response.data contains an array of departments
+                setDepartments(response.data); 
             } catch (err) {
                 setError("Error fetching departments. Please try again later.");
                 console.error(err);

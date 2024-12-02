@@ -70,10 +70,3 @@
     transform: translateY(-5px); /* Slight lift effect on hover */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
-
-/* Add responsive adjustments */
-@media (max-width: 600px) {
-    .instructors-list {
-        grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
-    }
-}

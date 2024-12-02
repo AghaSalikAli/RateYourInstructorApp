@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';  // Import Navbar
+import Navbar from './components/Navbar'; 
 import Homepage from './pages/homepage';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar /> {/* Add Navbar here */}
+        <Navbar /> 
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/signin" element={<Signin />} />

@@ -16,7 +16,7 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [retypePasswordError, setRetypePasswordError] = useState(false);
 
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -49,25 +49,22 @@ const Signup = () => {
             valid = false;
         }
 
-        if (!valid) return; // Do not proceed if fields are invalid
+        if (!valid) return;
 
-        // Send POST request to your backend with the email and password
         try {
             const response = await axios.post("http://localhost:8000/api/user/register", {
                 email,
                 password,
             });
 
-            // If signup is successful, handle the response
             console.log("Signup successful:", response.data);
             setSignupMessage(response.data.message);
 
             // Wait for 1 second before redirecting
             setTimeout(() => {
                 navigate("/signin"); // Redirect to Signin page after successful signup
-            }, 1000); // Wait for 1 second before redirecting
+            }, 1000);
         } catch (error) {
-            // If there's an error, show an error message
             console.error("Error during signup:", error.response ? error.response.data : error.message);
             setErrorMessage(error.response ? error.response.data.message : error.message);
         }
@@ -86,7 +83,7 @@ const Signup = () => {
                             placeholder="Enter IBA email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            isInvalid={emailError} // Bootstrap invalid style
+                            isInvalid={emailError}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please enter a valid IBA email.
@@ -101,7 +98,7 @@ const Signup = () => {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            isInvalid={passwordError} // Bootstrap invalid style
+                            isInvalid={passwordError}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please enter a valid password.
@@ -123,7 +120,7 @@ const Signup = () => {
                             placeholder="Retype Password"
                             value={retypePassword}
                             onChange={(e) => setRetypePassword(e.target.value)}
-                            isInvalid={retypePasswordError} // Bootstrap invalid style
+                            isInvalid={retypePasswordError}
                         />
                         <Form.Control.Feedback type="invalid">
                             {retypePasswordError ? "Passwords do not match." : "Please retype your password."}

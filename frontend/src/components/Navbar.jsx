@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import isAuthenticated from '../authService'; // Import the authentication utility function
+import isAuthenticated from '../authService';
 
 const Navbar = () => {
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false);
@@ -10,7 +10,7 @@ const Navbar = () => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       const authenticated = await isAuthenticated();
-      setIsAuthenticatedState(authenticated); // Update the state based on response
+      setIsAuthenticatedState(authenticated); 
     };
 
     checkAuthStatus();
@@ -20,7 +20,7 @@ const Navbar = () => {
     try {
       // Send logout request to the backend to clear the session or JWT cookie
       await axios.post('http://localhost:8000/api/user/logout', {}, { withCredentials: true });
-      setIsAuthenticatedState(false); // Update state to logged out
+      setIsAuthenticatedState(false); 
       window.location.reload(); // Reload the page after logout
     } catch (error) {
       console.error("Logout failed", error);

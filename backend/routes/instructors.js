@@ -8,25 +8,25 @@ import { getInstructor, searchInstructor, getAllCourses, addRating,
 const router = express.Router();
 const filter = new Filter();
 
-// Search for instructors (protected route)
-router.get('/search', verifyJWT, async (req, res) => {  // Apply JWT verification here
+// Search for instructors 
+router.get('/search', verifyJWT, async (req, res) => { 
     const name = req.query.name; // query parameter
 
     const instructor = await searchInstructor(name);
     if (instructor.length === 0) {
-        res.status(404).send({ msg: `No teacher with this name was found.` });
+        res.status(404).send({ msg: `No instructor with this name was found.` });
     } else {
         res.status(200).json(instructor);
     }
 });
 
-// Get all courses (protected route)
-router.get('/courses', verifyJWT, async (req, res) => {  // JWT verification here
+// Get all courses
+router.get('/courses', verifyJWT, async (req, res) => { 
     const courses = await getAllCourses();
     res.status(200).json(courses);
 });
 
-//add a review for an instructor (protected route)
+//add a review for an instructor 
 router.post('/add-rating/:id', verifyJWT, async (req, res) => {
     //user_id from JWT payload
     const user_id = req.user.User_ID;
@@ -42,9 +42,9 @@ router.post('/add-rating/:id', verifyJWT, async (req, res) => {
         return res.status(400).json({ error: 'You have already reviewed this instructor for this course.' });
     }
 
-    //use bad-word-filter to check for inappropriate language
-    if (filter.isProfane(review_text)) {
-        return res.status(400).json({ error: 'Review contains inappropriate language.' });
+    //validate review-text
+    if (!validateReview(review_text)) {
+        return res.status(400).json({ error: 'Review text is too long or contains inappropriate language.' });
     }
 
     try {
@@ -57,8 +57,8 @@ router.post('/add-rating/:id', verifyJWT, async (req, res) => {
     }
 });
 
-// Get Instructor Courses (protected route)
-router.get('/course-list/:id', async (req, res) => { 
+// Get Instructor Courses 
+router.get('/course-list/:id', verifyJWT, async (req, res) => { 
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         return res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
@@ -74,7 +74,7 @@ router.get('/course-list/:id', async (req, res) => {
     }
 });
 
-// Get Instructor Reviews (protected route)
+// Get Instructor Reviews
 router.get('/reviews/:id', verifyJWT, async (req, res) => { 
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
@@ -82,7 +82,7 @@ router.get('/reviews/:id', verifyJWT, async (req, res) => {
         return;
     }
 
-    const course_code = req.query.course_code || null; // Get course_code from query params
+    const course_code = req.query.course_code || null; // course_code from query params or null if all reviews are requested
     try {
         const reviews = await getInstructorReviews(id, course_code);
 
@@ -92,7 +92,8 @@ router.get('/reviews/:id', verifyJWT, async (req, res) => {
             res.status(200).json(reviews);
         }
     } catch (error) {
-        res.status(500).send({ msg: `Server error: ${error.message}` });
+        console.log(error);
+        res.status(500).send({ msg: `Error fetching reviews` });
     }
 });
 
@@ -113,7 +114,13 @@ router.get('/stats/:id', verifyJWT, async (req, res) => {
 });
 
 //delete a review
-router.delete('/delete-review', async (req, res) => {
+router.delete('/delete-review', verifyJWT, async (req, res) => {
+
+    //check if admin
+    if (req.user.IsAdmin !== 1) {
+        return res.status(403).json({ error: 'You do not have permission to delete reviews.' });
+    }
+
     const { user_id, instructor_id, course_code } = req.body;
 
     try {
@@ -126,8 +133,8 @@ router.delete('/delete-review', async (req, res) => {
     }
 });
 
-// Get Instructor Profile (protected route)
-router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification here
+// Get Instructor Profile 
+router.get('/:id', verifyJWT, async (req, res) => {  
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         res.status(400).send({ msg: `Invalid ID. ID must be a number.` });
@@ -141,5 +148,22 @@ router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification h
         res.status(200).json(instructor);
     }
 });
+
+// helper function to check if review text exceeds 350 characters and if it contains inappropriate language
+function validateReview(review_text) {
+    const forbiddenWords = ["KILL", "DIE", "HATE", "DUMB", "IDIOT"];
+
+    if (review_text.length > 350) {
+        return false;
+    }
+    if (filter.isProfane(review_text)) {
+        return false;
+    }
+    if (forbiddenWords.some(word => review_text.toUpperCase().includes(word))) {
+        return false;
+    }
+
+    return true;
+}
 
 export default router;

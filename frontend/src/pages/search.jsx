@@ -6,33 +6,33 @@ import '../styles/search.css'; // Reference to the stylesheet
 axios.defaults.withCredentials = true;
 
 const Search = () => {
-    const [query, setQuery] = useState(''); // State for user input
-    const [results, setResults] = useState([]); // State for search results
-    const [isLoading, setIsLoading] = useState(false); // State for loading indicator
-    const [error, setError] = useState(''); // State for error messages
+    const [query, setQuery] = useState(''); 
+    const [results, setResults] = useState([]); 
+    const [isLoading, setIsLoading] = useState(false); 
+    const [error, setError] = useState(''); 
     const [debouncedQuery, setDebouncedQuery] = useState(''); // Debounced query
 
-    // Debounce the query value
+    
     useEffect(() => {
         const handler = setTimeout(() => {
-            setDebouncedQuery(query); // Update the debounced query after 300ms
-        }, 300); // 300ms delay
+            setDebouncedQuery(query); 
+        }, 300);
 
         return () => {
             clearTimeout(handler); // Clear timeout if user types again
         };
     }, [query]);
 
-    // Fetch results when the debounced query changes
+    
     useEffect(() => {
         const fetchResults = async () => {
             if (debouncedQuery.length < 2) {
-                setResults([]); // Clear results if query is too short
+                setResults([]); 
                 setError('');
                 return;
             }
 
-            setIsLoading(true); // Start loading
+            setIsLoading(true); 
             try {
                 const response = await axios.get(`http://localhost:8000/api/instructor/search?name=${debouncedQuery}`);
                 setResults(response.data); // Update search results
@@ -41,7 +41,7 @@ const Search = () => {
                 setError('No instructors found.');
                 setResults([]);
             } finally {
-                setIsLoading(false); // Stop loading
+                setIsLoading(false);
             }
         };
 

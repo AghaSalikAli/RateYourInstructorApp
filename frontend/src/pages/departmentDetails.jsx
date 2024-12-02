@@ -6,11 +6,11 @@ import '../styles/departmentDetails.css';
 axios.defaults.withCredentials = true;
 
 const DepartmentDetails = () => {
-    const { id } = useParams(); // Get department ID from the URL
-    const [departmentName, setDepartmentName] = useState(""); // State for department name
-    const [instructors, setInstructors] = useState([]); // State for instructors list
-    const [error, setError] = useState(""); // State for error handling
-    const [departmentNotFound, setDepartmentNotFound] = useState(false); // State to track if department is found
+    const { id } = useParams(); 
+    const [departmentName, setDepartmentName] = useState(""); 
+    const [instructors, setInstructors] = useState([]); 
+    const [error, setError] = useState(""); 
+    const [departmentNotFound, setDepartmentNotFound] = useState(false); 
 
     useEffect(() => {
         const fetchDepartmentDetails = async () => {
@@ -21,7 +21,7 @@ const DepartmentDetails = () => {
                 if (response.data.length > 0) {
                     setDepartmentName(response.data[0].Department_Name); // Set department name
                     setInstructors(response.data.map((instructor) => ({
-                        Instructor_ID: instructor.Instructor_ID, // Add Instructor_ID for linking
+                        Instructor_ID: instructor.Instructor_ID, 
                         Instructor_Name: instructor.Instructor_Name,
                         Faculty_Type: instructor.Faculty_Type,
                     }))); // Map and set instructor details
@@ -31,19 +31,19 @@ const DepartmentDetails = () => {
                     setError("No instructors found for this department.");
                 }
             } catch (err) {
-                setDepartmentNotFound(true); // Error occurs, set flag for department not found
+                setDepartmentNotFound(true); 
                 setError("The department you are looking for does not exist.");
                 console.error(err);
             }
         };
 
         fetchDepartmentDetails();
-    }, [id]); // Dependency array ensures the call is made whenever `id` changes
+    }, [id]); 
 
     return (
         <div className="department-details">
             {departmentNotFound ? (
-                <h1>No Such Department</h1> // Display "No Such Department" message
+                <h1>No Such Department</h1> 
             ) : (
                 <h1>{departmentName ? `Department of ${departmentName}` : "Loading..."}</h1>
             )}
@@ -59,7 +59,7 @@ const DepartmentDetails = () => {
                         </li>
                     ))
                 ) : (
-                    !departmentNotFound && <p>Loading instructors...</p> // Only show "Loading instructors..." when department exists
+                    !departmentNotFound && <p>Loading instructors...</p> 
                 )}
             </ul>
         </div>

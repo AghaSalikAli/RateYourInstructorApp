@@ -1,17 +1,17 @@
 import express from "express";
-import { verifyJWT } from '../JWT.js'; // Import the JWT verification middleware
+import { verifyJWT } from '../JWT.js'; 
 const router = express.Router();
 
 import { getDepartment, getDepartments } from '../dbqueries/departmentsdb.js';
 
-// Get all departments (protected route)
-router.get('/', verifyJWT, async (req, res) => {  // Apply JWT verification here
+// Get all departments 
+router.get('/', verifyJWT, async (req, res) => {  
     const departments = await getDepartments();
     res.status(200).json(departments);
 });
 
-// Get all Instructors from one Department (protected route)
-router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification here
+// Get all Instructors from one Department 
+router.get('/:id', verifyJWT, async (req, res) => {  
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         return res.status(400).json({ msg: "Invalid department ID." });
@@ -22,7 +22,7 @@ router.get('/:id', verifyJWT, async (req, res) => {  // Apply JWT verification h
 
         // For departments that do not exist
         if (deptInstructors.length === 0) {
-            return res.status(404).json({ msg: `No instructors found for department ID ${id}.` });
+            return res.status(404).json({ msg: `No instructors found for this department.` });
         }
 
         // If instructors are found, send them in the response

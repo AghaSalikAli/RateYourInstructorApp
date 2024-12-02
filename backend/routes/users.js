@@ -16,20 +16,23 @@ router.post('/register', async (req, res) => {
       const existingUser = await loginUser(email);
       
       if (existingUser.length > 0) {
-          //Return an error
           return res.status(400).json({ message: 'User already exists' });
+      }
+
+      //check if email ends with @khi.iba.edu.pk
+      if (!email.endsWith('@khi.iba.edu.pk')) {
+        return res.status(400).json({ message: 'Invalid email. Must be an IBA email.' });
       }
 
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 5);
 
-      // Register the new user using the InsertUser stored procedure
+      // Registering new user
       const newUser = await registerUser(email, hashedPassword);
       
 
-      res.json({ message: 'User registered successfully', newUser });
+      res.json({ message: 'User registered successfully'});
   } catch (error) {
-      // Handle database or other errors
       console.error(error);
       res.status(500).json({ message: 'Something went wrong, please try again' });
   }
@@ -52,13 +55,12 @@ router.post('/login', async (req, res) => {
     }
   
     // Generate JWT token
-    const token = generateJWT(user[0]); // Pass the user data to generate JWT
+    const token = generateJWT(user[0]);
   
     // Store JWT in a cookie
     res.cookie('token', token, {
-      httpOnly: true, // Can't be accessed via JavaScript
+      httpOnly: true, // Can't be accessed via JavaScript at front end
        secure: true,
-    //   maxAge: 3600000, // 1 hour
        sameSite: 'None',
     });
   
@@ -73,7 +75,7 @@ router.post('/login', async (req, res) => {
 
 //check if valid cookie
 router.get('/authenticated', verifyJWT, (req, res) => {
-    // Check if the user is authenticated
+    // Check if user is signed in
     if (req.user) {
       res.json({ authenticated: true });
     } else {
@@ -96,24 +98,22 @@ router.post('/register-admin', async (req, res) => {
     const { email, password } = req.body;
     
     try {
-        // Check if a user with the given email already exists
+        // Check if an admin with the given email already exists
         const existingUser = await loginUser(email);
         
         if (existingUser.length > 0) {
-            //Return an error
             return res.status(400).json({ message: 'Admin already exists' });
         }
   
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 5);
   
-        // Register the new user using the InsertUser stored procedure
+        // Registering admin
         const newUser = await registerAdmin(email, hashedPassword);
         
   
-        res.json({ message: 'Admin registered successfully', newUser });
+        res.json({ message: 'Admin registered successfully'});
     } catch (error) {
-        // Handle database or other errors
         console.error(error);
         res.status(500).json({ message: 'Something went wrong, please try again' });
     }

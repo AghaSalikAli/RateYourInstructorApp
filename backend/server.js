@@ -8,10 +8,10 @@ import cookieParser from 'cookie-parser';
 const port = process.env.PORT || 8000;
 const app = express();
 
-// Enable CORS with credentials (cookies)
+// CORS with credentials (cookies)
 app.use(cors({
   origin: 'http://localhost:3000', // URL of the React app
-  credentials: true,               // Set true to allow cookies
+  credentials: true,               
 }));
 
 app.use(express.json());

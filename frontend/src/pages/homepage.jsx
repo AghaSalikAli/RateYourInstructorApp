@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import { FaStar, FaUserSecret, FaSearch } from "react-icons/fa"; // Importing icons
+import { FaStar, FaUserSecret, FaSearch } from "react-icons/fa"; 
 
 const Homepage = () => {
     return (
@@ -10,7 +10,7 @@ const Homepage = () => {
             <Container className="hero-section">
                 <h1>RateYourInstructor</h1>
                 <h3>For Students, By Students</h3>
-                <p>Your trusted platform to rate and review instructors, helping you make informed decisions.</p>
+                <p>Your trusted platform to rate and review instructors, helping you make informed choices.</p>
                 <div className="hero-buttons">
                     <Button variant="primary" as={Link} to="/signin">
                         Sign In

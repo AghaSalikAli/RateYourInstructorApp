@@ -11,8 +11,8 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { toast, ToastContainer } from "react-toastify"; // Import Toastify
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify styles
+import { toast, ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 import "../styles/instructorProfile.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -20,18 +20,18 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 axios.defaults.withCredentials = true;
 
 const InstructorProfile = () => {
-    const { id } = useParams(); // Get the instructor ID from the URL
+    const { id } = useParams(); 
     const navigate = useNavigate();
 
-    const [instructor, setInstructor] = useState(null); // State for instructor details
-    const [stats, setStats] = useState(null); // State for instructor stats
-    const [distribution, setDistribution] = useState([]); // State for rating distribution
-    const [error, setError] = useState(""); // State for error handling
+    const [instructor, setInstructor] = useState(null); 
+    const [stats, setStats] = useState(null); 
+    const [distribution, setDistribution] = useState([]); 
+    const [error, setError] = useState(""); 
 
-    const [reviews, setReviews] = useState([]); // State for reviews
-    const [courseList, setCourseList] = useState([]); // State for dropdown options
-    const [selectedCourse, setSelectedCourse] = useState("All"); // State for selected dropdown value
-    const [isAdmin, setIsAdmin] = useState(false); // State for checking if the user is an admin
+    const [reviews, setReviews] = useState([]); 
+    const [courseList, setCourseList] = useState([]); 
+    const [selectedCourse, setSelectedCourse] = useState("All"); 
+    const [isAdmin, setIsAdmin] = useState(false); 
 
     const fetchReviews = useCallback(
         async (courseCode = null) => {
@@ -43,7 +43,7 @@ const InstructorProfile = () => {
                 if (response.data.length === 0) {
                     setReviews([]); // Set empty reviews array if no reviews are found
                 } else {
-                    setReviews(response.data); // Set the reviews if found
+                    setReviews(response.data); 
                 }
                 console.log(response.data);
             } catch (err) {
@@ -76,7 +76,7 @@ const InstructorProfile = () => {
                     ...coursesResponse.data,
                 ]);
 
-                fetchReviews(); // Fetch all reviews initially
+                fetchReviews(); 
                 
                 // Check if the current user is an admin
                 const adminResponse = await axios.get(
@@ -106,7 +106,7 @@ const InstructorProfile = () => {
 
     const handleDeleteReview = async (review) => {
         const { User_Id, course_code } = review; // Extract user_id and course_code from the review object
-        const instructor_id = id; // Instructor ID is available from the URL
+        const instructor_id = id; // Instructor ID from the URL
     
         try {
             await axios.delete(`http://localhost:8000/api/instructor/delete-review`, {
@@ -116,11 +116,15 @@ const InstructorProfile = () => {
                     course_code: course_code,
                 },
             });
-            toast.success("Review deleted successfully!"); // Show success toast
-            fetchReviews(selectedCourse === "All" ? null : selectedCourse); // Refresh reviews
+            toast.success("Review deleted successfully!"); 
+            // Freezes page for 1 second and then refresh
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         } catch (error) {
             toast.error(
-                error.response?.data?.msg || "Failed to delete review." // Show error toast
+                error.response?.data?.msg || "Failed to delete review.",
+                { autoClose: 3000 }
             );
         }
     };
@@ -133,7 +137,6 @@ const InstructorProfile = () => {
         return <div>Loading...</div>;
     }
 
-    // Fill missing ratings
     const ratingCounts = [1, 2, 3, 4, 5].map((rating) => {
         const ratingObj = distribution.find((d) => d.rating === rating);
         return ratingObj ? ratingObj.count : 0;
@@ -154,7 +157,7 @@ const InstructorProfile = () => {
 
     return (
         <div className="instructor-profile-container">
-            <ToastContainer position="top-right" autoClose={3000} /> {/* Add ToastContainer */}
+            <ToastContainer position="top-right" autoClose={1000} /> 
             <div className="top-section">
                 <div className="instructor-details">
                     <h1>{instructor.Instructor_Name}</h1>
@@ -214,7 +217,6 @@ const InstructorProfile = () => {
                                         ticks: {
                                             stepSize: 1,
                                             precision: 0,
-                                            // Optionally, you can add a callback to ensure only integers are displayed
                                             callback: function(value) {
                                                 if (Number.isInteger(value)) {
                                                     return value;
@@ -252,6 +254,9 @@ const InstructorProfile = () => {
                         reviews.map((review, index) => (
                             <div className="review-card" key={index}>
                                 <h3>{review.course_name}</h3>
+                                <p>
+                                    <strong>Date:</strong> {review.review_date}
+                                </p>
                                 <p>
                                     <strong>Rating:</strong> {review.rating} / 5
                                 </p>

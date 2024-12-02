@@ -7,16 +7,16 @@ import "../styles/instructorRating.css";
 axios.defaults.withCredentials = true;
 
 const InstructorRating = () => {
-    const { id } = useParams(); // Get instructor ID from URL params
-    const navigate = useNavigate(); // Hook to navigate to instructor profile after success
-    const [instructorDetails, setInstructorDetails] = useState(null); // Store instructor details
-    const [error, setError] = useState(false); // Store error state for invalid instructor
+    const { id } = useParams(); 
+    const navigate = useNavigate(); 
+    const [instructorDetails, setInstructorDetails] = useState(null); 
+    const [error, setError] = useState(false); 
     const [courseCode, setCourseCode] = useState("");
-    const [courses, setCourses] = useState([]); // Store courses from backend
+    const [courses, setCourses] = useState([]); 
     const [rating, setRating] = useState(1);
     const [difficulty, setDifficulty] = useState(1);
-    const [takeAgain, setTakeAgain] = useState(null); // Mandatory, starts as null
-    const [mandatoryAttendance, setMandatoryAttendance] = useState(null); // Mandatory, starts as null
+    const [takeAgain, setTakeAgain] = useState(null); 
+    const [mandatoryAttendance, setMandatoryAttendance] = useState(null); 
     const [grade, setGrade] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -24,30 +24,30 @@ const InstructorRating = () => {
 
     const grades = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "F"]; // Grade options
 
-    // Fetch instructor details from backend
+    
     useEffect(() => {
         const fetchInstructorDetails = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/instructor/${id}`);
                 if (response.data.length === 0) {
-                    setError(true); // Set error if no instructor found
+                    setError(true); 
                 } else {
-                    setInstructorDetails(response.data[0]); // Store the first result
+                    setInstructorDetails(response.data[0]); 
                 }
             } catch (error) {
                 console.error("Error fetching instructor details:", error);
-                setError(true); // Set error on API failure
+                setError(true); 
             }
         };
         fetchInstructorDetails();
     }, [id]);
 
-    // Fetch courses from backend
+    
     useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/instructor/courses");
-                setCourses(response.data); // Store courses in state
+                setCourses(response.data); 
             } catch (error) {
                 console.error("Error fetching courses:", error);
                 setErrorMessage("Failed to load courses. Please try again.");
@@ -59,7 +59,7 @@ const InstructorRating = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Clear error and success messages
+        
         setErrorMessage("");
         setSuccessMessage("");
 
@@ -96,22 +96,20 @@ const InstructorRating = () => {
 
                 // Wait for 2 seconds before redirecting
                 setTimeout(() => {
-                    navigate(`/instructor/${id}`); // Redirect to the instructor's profile page
+                    navigate(`/instructor/${id}`); 
                 }, 2000);
             })
             .catch((error) => {
                 if (error.response && error.response.status === 400) {
                     // Check for duplicate review error from backend
-                    setErrorMessage(error.response.data.error); // Display backend error message
+                    setErrorMessage(error.response.data.error); 
                 } else {
-                    // General error
                     setErrorMessage("Failed to submit review. Please try again.");
                 }
             });
     };
 
     if (error) {
-        // Display error message if the instructor is invalid or details couldn't be fetched
         return (
             <div className="InstructorRatingError">
                 <h1>Error</h1>
@@ -284,7 +282,7 @@ const InstructorRating = () => {
                     <div className="guidelines">
                         <p>Please follow these guidelines for your review:</p>
                         <ul>
-                            <li>Be respectful and avoid offensive language.</li>
+                            <li>Be honest but do not use offensive language.</li>
                             <li>Focus on the instructor’s teaching and relevant experiences.</li>
                             <li>Keep the review concise and meaningful.</li>
                         </ul>

@@ -36,7 +36,6 @@ const Signin = () => {
 
     if (!valid) return;
 
-    // Send POST request to your backend
     try {
       const response = await axios.post('http://localhost:8000/api/user/login', {
         email,
@@ -44,7 +43,6 @@ const Signin = () => {
       });
 
       console.log(response.data);
-      //reload the page
       navigate('/search');
       window.location.reload();
     } catch (error) {
@@ -65,8 +63,8 @@ const Signin = () => {
               placeholder="Enter IBA email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              isInvalid={emailError} // Bootstrap invalid style
-              style={{ height: '38px' }} // Ensure consistent height
+              isInvalid={emailError} 
+              style={{ height: '38px' }} 
             />
             <Form.Control.Feedback type="invalid">
               Please enter a valid IBA email.
@@ -80,8 +78,8 @@ const Signin = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              isInvalid={passwordError} // Bootstrap invalid style
-              style={{ height: '38px' }} // Ensure consistent height
+              isInvalid={passwordError} 
+              style={{ height: '38px' }} 
             />
             <Form.Control.Feedback type="invalid">
               Please enter your password.
