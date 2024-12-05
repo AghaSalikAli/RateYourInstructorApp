@@ -18,3 +18,4 @@
     MYSQL_USER = '(your user)'
     MYSQL_PASSWORD = '(your password)'
     MYSQL_DATABASE = '(your db name)'
+    JWT_SECRET= (any string of chars here)
