@@ -5,6 +5,8 @@ import Homepage from './pages/homepage';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
 import Departments from './pages/departments';
+import VerifyEmail from './pages/verifyEmail';
+import VerifyResult from './pages/verifyResult';
 import Search from './pages/search';
 import DepartmentDetails from "./pages/departmentDetails";
 import InstructorProfile from "./pages/instructorProfile";
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/verify-result" element={<VerifyResult />} />
           
           <Route element={<PrivateRoute />}>
             <Route path="/search" element={<Search />} />

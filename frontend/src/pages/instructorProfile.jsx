@@ -11,7 +11,6 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
 import "../styles/instructorProfile.css";
 
@@ -31,7 +30,6 @@ const InstructorProfile = () => {
     const [reviews, setReviews] = useState([]); 
     const [courseList, setCourseList] = useState([]); 
     const [selectedCourse, setSelectedCourse] = useState("All"); 
-    const [isAdmin, setIsAdmin] = useState(false); 
 
     const fetchReviews = useCallback(
         async (courseCode = null) => {
@@ -78,11 +76,6 @@ const InstructorProfile = () => {
 
                 fetchReviews(); 
                 
-                // Check if the current user is an admin
-                const adminResponse = await axios.get(
-                    "http://localhost:8000/api/user/admin-check"
-                );
-                setIsAdmin(adminResponse.data.admin);
             } catch (err) {
                 setError(
                     err.response?.data?.msg ||
@@ -103,31 +96,7 @@ const InstructorProfile = () => {
             fetchReviews(selectedValue);
         }
     };
-
-    const handleDeleteReview = async (review) => {
-        const { User_Id, course_code } = review; // Extract user_id and course_code from the review object
-        const instructor_id = id; // Instructor ID from the URL
     
-        try {
-            await axios.delete(`http://localhost:8000/api/instructor/delete-review`, {
-                data: {
-                    user_id: User_Id,
-                    instructor_id: instructor_id,
-                    course_code: course_code,
-                },
-            });
-            toast.success("Review deleted successfully!"); 
-            // Freezes page for 1 second and then refresh
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        } catch (error) {
-            toast.error(
-                error.response?.data?.msg || "Failed to delete review.",
-                { autoClose: 3000 }
-            );
-        }
-    };
 
     if (error) {
         return <div className="error-message">{error}</div>;
@@ -157,7 +126,6 @@ const InstructorProfile = () => {
 
     return (
         <div className="instructor-profile-container">
-            <ToastContainer position="top-right" autoClose={1000} /> 
             <div className="top-section">
                 <div className="instructor-details">
                     <h1>{instructor.Instructor_Name}</h1>
@@ -280,14 +248,6 @@ const InstructorProfile = () => {
                                 <p>
                                     <strong>Review:</strong> {review.review_text}
                                 </p>
-                                {isAdmin && (
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => handleDeleteReview(review)}
-                                    >
-                                        Delete
-                                    </button>
-                                )}
                             </div>
                         ))
                     )}

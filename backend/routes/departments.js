@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyJWT } from '../JWT.js'; 
+import { verifyJWT } from '../middleware.js'; 
 const router = express.Router();
 
 import { getDepartment, getDepartments } from '../dbqueries/departmentsdb.js';

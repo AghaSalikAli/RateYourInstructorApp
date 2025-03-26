@@ -1,8 +1,8 @@
 import express from "express";
-import { verifyJWT } from '../JWT.js'; 
+import { verifyJWT } from '../middleware.js'; 
 import { Filter } from 'bad-words';
 import { getInstructor, searchInstructor, getAllCourses, addRating,
-     checkDuplicate, getInstructorCourses, getInstructorReviews, getInstructorStats, deleteReview } from '../dbqueries/instructorsdb.js';
+     checkDuplicate, getInstructorCourses, getInstructorReviews, getInstructorStats} from '../dbqueries/instructorsdb.js';
 
 
 const router = express.Router();
@@ -110,26 +110,6 @@ router.get('/stats/:id', verifyJWT, async (req, res) => {
         res.status(404).send({ msg: `No stats found.` });
     } else {
         res.status(200).json(stats);
-    }
-});
-
-//delete a review
-router.delete('/delete-review', verifyJWT, async (req, res) => {
-
-    //check if admin
-    if (req.user.IsAdmin !== 1) {
-        return res.status(403).json({ error: 'You do not have permission to delete reviews.' });
-    }
-
-    const { user_id, instructor_id, course_code } = req.body;
-
-    try {
-        const result = await deleteReview(user_id, instructor_id, course_code);
-        res.status(200).send({ msg: `Review deleted successfully.` });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).send({ msg: `Error deleting review.` });
     }
 });
 

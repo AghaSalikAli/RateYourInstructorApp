@@ -62,7 +62,7 @@ const Signup = () => {
 
             // Wait for 1 second before redirecting
             setTimeout(() => {
-                navigate("/signin"); // Redirect to Signin page after successful signup
+                navigate("/verify-email"); // Redirect to verify email page
             }, 1000);
         } catch (error) {
             console.error("Error during signup:", error.response ? error.response.data : error.message);
