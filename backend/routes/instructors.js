@@ -22,7 +22,8 @@ router.get('/search', verifyJWT, async (req, res) => {
 
 // Get all courses
 router.get('/courses', verifyJWT, async (req, res) => { 
-    const courses = await getAllCourses();
+    const level = req.query.level; // query parameter
+    const courses = await getAllCourses(level);
     res.status(200).json(courses);
 });
 

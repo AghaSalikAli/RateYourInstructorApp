@@ -1,5 +1,3 @@
-/* instructorProfile.css */
-
 /* Instructor Profile Styling */
 .instructor-profile-container {
     display: flex;
@@ -116,13 +114,45 @@
     margin-bottom: 20px;
 }
 
-.course-dropdown {
-    width: 100%;
-    padding: 10px;
+/* Container for the react-select dropdown */
+.course-select-container {
     margin-bottom: 20px;
+}
+
+/* Custom styles for react-select to match the overall design */
+.react-select-container {
+    width: 100%;
+}
+
+.react-select__control {
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
+    min-height: 45px;
+}
+
+.react-select__control--is-focused {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.react-select__menu {
+    z-index: 100;
+}
+
+.react-select__option {
+    padding: 10px;
     font-size: 1rem;
+    color: #343a40;
+}
+
+.react-select__option--is-focused {
+    background-color: #f0f8ff;
+}
+
+.react-select__option--is-selected {
+    background-color: #007bff;
+    color: #fff;
 }
 
 .reviews-container {

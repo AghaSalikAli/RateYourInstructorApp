@@ -11,7 +11,8 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import "react-toastify/dist/ReactToastify.css"; 
+import Select from "react-select";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/instructorProfile.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -19,31 +20,30 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 axios.defaults.withCredentials = true;
 
 const InstructorProfile = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
     const navigate = useNavigate();
 
-    const [instructor, setInstructor] = useState(null); 
-    const [stats, setStats] = useState(null); 
-    const [distribution, setDistribution] = useState([]); 
-    const [error, setError] = useState(""); 
+    const [instructor, setInstructor] = useState(null);
+    const [stats, setStats] = useState(null);
+    const [distribution, setDistribution] = useState([]);
+    const [error, setError] = useState("");
 
-    const [reviews, setReviews] = useState([]); 
-    const [courseList, setCourseList] = useState([]); 
-    const [selectedCourse, setSelectedCourse] = useState("All"); 
+    const [reviews, setReviews] = useState([]);
+    const [courseList, setCourseList] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState("All");
 
     const fetchReviews = useCallback(
         async (courseCode = null) => {
             try {
-                const queryParam = courseCode ? `?course_code=${courseCode}` : "";
+                const queryParam = courseCode && courseCode !== "All" ? `?course_code=${courseCode}` : "";
                 const response = await axios.get(
                     `http://localhost:8000/api/instructor/reviews/${id}${queryParam}`
                 );
                 if (response.data.length === 0) {
                     setReviews([]); // Set empty reviews array if no reviews are found
                 } else {
-                    setReviews(response.data); 
+                    setReviews(response.data);
                 }
-                console.log(response.data);
             } catch (err) {
                 setReviews([]); // Set empty reviews array in case of error
                 setError(err.response?.data?.msg || "Failed to load reviews.");
@@ -69,13 +69,14 @@ const InstructorProfile = () => {
                 const coursesResponse = await axios.get(
                     `http://localhost:8000/api/instructor/course-list/${id}`
                 );
-                setCourseList([
-                    { course_code: "All", course_name: "All Courses" },
-                    ...coursesResponse.data,
-                ]);
+                // Prepend the "All" option then merge with sorted courses (sorted by course_name)
+                const allOption = { course_code: "All", course_name: "All Courses" };
+                const otherCourses = coursesResponse.data.slice().sort((a, b) =>
+                    a.course_name.localeCompare(b.course_name)
+                );
+                setCourseList([allOption, ...otherCourses]);
 
-                fetchReviews(); 
-                
+                fetchReviews();
             } catch (err) {
                 setError(
                     err.response?.data?.msg ||
@@ -87,16 +88,31 @@ const InstructorProfile = () => {
         fetchData();
     }, [id, fetchReviews]);
 
-    const handleCourseChange = (e) => {
-        const selectedValue = e.target.value;
-        setSelectedCourse(selectedValue);
-        if (selectedValue === "All") {
+    // Map courseList to react-select options with desired format
+    const courseOptions = courseList.map(course => {
+        if (course.course_code === "All") {
+            return {
+                value: course.course_code,
+                label: course.course_name,
+            };
+        }
+        return {
+            value: course.course_code,
+            label: `(${course.course_code}) ${course.course_name}`,
+        };
+    });
+
+    // Set react-select value based on selectedCourse
+    const selectedOption = courseOptions.find(option => option.value === selectedCourse) || courseOptions[0];
+
+    const handleCourseSelectChange = (selectedOption) => {
+        setSelectedCourse(selectedOption.value);
+        if (selectedOption.value === "All") {
             fetchReviews();
         } else {
-            fetchReviews(selectedValue);
+            fetchReviews(selectedOption.value);
         }
     };
-    
 
     if (error) {
         return <div className="error-message">{error}</div>;
@@ -138,23 +154,22 @@ const InstructorProfile = () => {
                     <div className="instructor-stats">
                         <h2>Instructor Stats</h2>
                         <p>
-                            Based on <strong> {stats.total_reviews} Total Reviews</strong>
+                            Based on <strong>{stats.total_reviews} Total Reviews</strong>
                         </p>
                         <p>
                             <strong>Average Rating:</strong> {stats.avg_rating} / 5
                         </p>
                         <p>
-                            <strong>Average Difficulty Level:</strong>{" "}
-                            {stats.avg_difficulty_level} / 5
+                            <strong>Average Difficulty Level:</strong> {stats.avg_difficulty_level} / 5
                         </p>
                     </div>
                     <div className="rate-button-container">
-                    <button
-                        className="rate-button"
-                        onClick={() => navigate(`/instructor/add-rating/${id}`)}
-                    >
-                        Rate ➔
-                    </button>
+                        <button
+                            className="rate-button"
+                            onClick={() => navigate(`/instructor/add-rating/${id}`)}
+                        >
+                            Rate ➔
+                        </button>
                     </div>
                 </div>
                 <div className="rating-distribution">
@@ -185,7 +200,7 @@ const InstructorProfile = () => {
                                         ticks: {
                                             stepSize: 1,
                                             precision: 0,
-                                            callback: function(value) {
+                                            callback: function (value) {
                                                 if (Number.isInteger(value)) {
                                                     return value;
                                                 }
@@ -201,20 +216,17 @@ const InstructorProfile = () => {
             </div>
             <div className="reviews-section">
                 <h2>Reviews</h2>
-                <select
-                    className="course-dropdown"
-                    value={selectedCourse}
-                    onChange={handleCourseChange}
-                >
-                    {courseList.map((course) => (
-                        <option
-                            key={course.course_code}
-                            value={course.course_code}
-                        >
-                            {course.course_name}
-                        </option>
-                    ))}
-                </select>
+                <div className="course-select-container">
+                    <Select
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        options={courseOptions}
+                        value={selectedOption}
+                        onChange={handleCourseSelectChange}
+                        placeholder="Select a course"
+                        noOptionsMessage={() => "No courses available"}
+                    />
+                </div>
                 <div className="reviews-container">
                     {reviews.length === 0 ? (
                         <p>No reviews available for this instructor.</p>
@@ -229,16 +241,13 @@ const InstructorProfile = () => {
                                     <strong>Rating:</strong> {review.rating} / 5
                                 </p>
                                 <p>
-                                    <strong>Difficulty Level:</strong>{" "}
-                                    {review.difficulty_level} / 5
+                                    <strong>Difficulty Level:</strong> {review.difficulty_level} / 5
                                 </p>
                                 <p>
-                                    <strong>Take Again:</strong>{" "}
-                                    {review.take_again ? "Yes" : "No"}
+                                    <strong>Take Again:</strong> {review.take_again ? "Yes" : "No"}
                                 </p>
                                 <p>
-                                    <strong>Mandatory Attendance:</strong>{" "}
-                                    {review.mandatory_attendance ? "Yes" : "No"}
+                                    <strong>Mandatory Attendance:</strong> {review.mandatory_attendance ? "Yes" : "No"}
                                 </p>
                                 {review.grade && (
                                     <p>

@@ -10,10 +10,10 @@ export async function getInstructor(id) {
 }
 
 //get all courses
-export async function getAllCourses() {
+export async function getAllCourses(level) {
     const[rows] = await pool.query(`
-        CALL GetAllCourses();
-    `);
+        CALL GetAllCourses(?);
+    `, [level]);
         return rows[0];
 }
 

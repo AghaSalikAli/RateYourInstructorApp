@@ -7,59 +7,62 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
-}
-
-.instructor-header {
+  }
+  
+  .instructor-header {
     padding-bottom: 20px;
     margin-bottom: 30px;
     border-bottom: 2px solid #ddd;
-}
-
-.instructor-details {
+  }
+  
+  .instructor-details {
     margin-top: 10px;
-}
-
-.instructor-name {
+  }
+  
+  .instructor-name {
     font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 10px;
     color: #343a40;
-}
-
-.faculty-type, .department-name {
+  }
+  
+  .faculty-type,
+  .department-name {
     font-size: 1rem;
     color: #555;
-}
-
-.Form-group {
+  }
+  
+  .Form-group {
     margin-bottom: 1.5rem;
-}
-
-/* Align Yes/No radio buttons horizontally */
-.form-check-inline {
+  }
+  
+  /* Align Yes/No radio buttons horizontally */
+  .form-check-inline {
     margin-right: 15px;
-}
-
-label {
+  }
+  
+  label {
     font-size: 1rem;
     font-weight: bold;
-}
-
-input, textarea, select {
+  }
+  
+  input,
+  textarea,
+  select {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 1rem;
     color: #343a40;
-}
-
-textarea {
+  }
+  
+  textarea {
     resize: none;
     font-size: 1rem;
-}
-
-button {
+  }
+  
+  button {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
@@ -68,57 +71,58 @@ button {
     background-color: #007bff;
     color: white;
     border: none;
-}
-
-button:hover {
+  }
+  
+  button:hover {
     background-color: #0056b3;
-}
-
-button[type="submit"] {
+  }
+  
+  button[type="submit"] {
     background-color: #007bff;
-}
-
-button[type="submit"]:hover {
+  }
+  
+  button[type="submit"]:hover {
     background-color: #0056b3;
-}
-
-.error-message, .success-message {
+  }
+  
+  .error-message,
+  .success-message {
     padding: 10px;
     margin-bottom: 20px;
     text-align: center;
     font-size: 1rem;
     border-radius: 4px;
-}
-
-.error-message {
+  }
+  
+  .error-message {
     background-color: #f8d7da;
     color: #721c24;
-}
-
-.success-message {
+  }
+  
+  .success-message {
     background-color: #d4edda;
     color: #155724;
-}
-
-/* Make dropdown look better */
-select {
+  }
+  
+  /* Make dropdown look better */
+  select {
     background-color: #fff;
     border: 1px solid #ccc;
-}
-
-select:focus {
+  }
+  
+  select:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Style for the form labels */
-.Form-group label {
+  }
+  
+  /* Style for the form labels */
+  .Form-group label {
     font-size: 1.2rem;
     color: #343a40;
-}
-
-/* Rating & Difficulty slider styles */
-input[type="range"] {
+  }
+  
+  /* Rating & Difficulty slider styles */
+  input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -127,9 +131,9 @@ input[type="range"] {
     border-radius: 5px;
     outline: none;
     margin-top: 10px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -137,27 +141,27 @@ input[type="range"]::-webkit-slider-thumb {
     background: #007bff;
     border-radius: 50%;
     cursor: pointer;
-}
-
-input[type="range"]:focus {
+  }
+  
+  input[type="range"]:focus {
     outline: none;
-}
-
-input[type="radio"] {
+  }
+  
+  input[type="radio"] {
     margin-right: 5px;
-}
-
-.error-message {
+  }
+  
+  .error-message {
     font-size: 0.875rem;
     color: red;
-}
-
-.success-message {
+  }
+  
+  .success-message {
     font-size: 0.875rem;
     color: green;
-}
-
-.guidelines {
+  }
+  
+  .guidelines {
     margin-top: 10px;
     padding: 10px;
     background-color: #f0f8ff; /* Light blue background to make it stand out */
@@ -165,25 +169,62 @@ input[type="radio"] {
     border-radius: 4px;
     font-size: 0.9rem;
     color: #343a40;
-}
-
-.guidelines p {
+  }
+  
+  .guidelines p {
     margin: 0 0 10px;
     font-weight: bold;
     color: #0056b3; /* Slightly darker blue for the main heading text */
-}
-
-.guidelines ul {
+  }
+  
+  .guidelines ul {
     margin: 0;
     padding-left: 20px;
-}
-
-.guidelines li {
+  }
+  
+  .guidelines li {
     margin-bottom: 5px;
     font-size: 0.875rem; /* Slightly smaller for better readability */
     color: #555; /* Muted text color */
-}
-
-.guidelines li::marker {
+  }
+  
+  .guidelines li::marker {
     color: #007bff; /* Blue bullet points */
-}
+  }
+  
+  /* Custom styles for react-select to match the overall design */
+  .react-select-container {
+    width: 100%;
+  }
+  
+  .react-select__control {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 45px;
+  }
+  
+  .react-select__control--is-focused {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .react-select__menu {
+    z-index: 100;
+  }
+  
+  .react-select__option {
+    padding: 10px;
+    font-size: 1rem;
+    color: #343a40;
+  }
+  
+  .react-select__option--is-focused {
+    background-color: #f0f8ff;
+  }
+  
+  .react-select__option--is-selected {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

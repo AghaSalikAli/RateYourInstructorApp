@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     }
 
     //add logic to check if user has verified their email
-    if (user[0].IsVerified==0) {
+    if (user[0].isVerified==0) {
       return res.status(401).json({ message: "Account is not verified. Check your email."});
     }
   
