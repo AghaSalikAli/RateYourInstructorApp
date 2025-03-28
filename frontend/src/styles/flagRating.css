@@ -1,0 +1,69 @@
+.flag-rating-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .flag-rating-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center;
+  }
+  
+  .review-details {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .review-details h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #343a40;
+  }
+  
+  .error-message,
+  .success-message {
+    padding: 10px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  .mt-3 {
+    margin-top: 1rem;
+  }
+  

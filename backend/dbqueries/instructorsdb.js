@@ -33,14 +33,6 @@ export async function addRating(user_id, instructor_id, course_code, grade, rati
         return rows[0];
 }
 
-//check for duplicate review
-export async function checkDuplicate(user_id, instructor_id, course_code) {
-    const[rows] = await pool.query(`
-        CALL DuplicateReviewCheck(?,?,?);
-    `, [user_id, instructor_id, course_code]);
-        return rows[0];
-}
-
 //get instructor courses
 export async function getInstructorCourses(instructor_id) {
     const[rows] = await pool.query(`
@@ -68,12 +60,4 @@ export async function getInstructorStats(instructor_id) {
         const stats = rows[0];
         const distribution = rows[1];
         return {stats, distribution};
-}
-
-//delete a review
-export async function deleteReview(user_id, instructor_id, course_code) {
-    const[rows] = await pool.query(`
-        CALL DeleteReview(?,?,?);
-    `, [user_id, instructor_id, course_code]);
-        return rows[0];
 }

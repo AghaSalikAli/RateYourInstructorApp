@@ -11,6 +11,7 @@ import Search from './pages/search';
 import DepartmentDetails from "./pages/departmentDetails";
 import InstructorProfile from "./pages/instructorProfile";
 import InstructorRating from "./pages/instructorRating";
+import FlagRating from "./pages/flagRating";  // New import
 import PrivateRoute from './components/privateRoute';
 import './styles/App.css';
 
@@ -32,6 +33,8 @@ function App() {
             <Route path="/department/:id" element={<DepartmentDetails />} />
             <Route path="/instructor/add-rating/:id" element={<InstructorRating />} />
             <Route path="/instructor/:id" element={<InstructorProfile />} />
+            {/* Updated route parameter to match FlagRating */}
+            <Route path="/instructor/flag-rating/:reviewId" element={<FlagRating />} />
           </Route>
           
           <Route path="*" element={<h1>Error 404 - PAGE NOT FOUND</h1>} />

@@ -5,15 +5,15 @@
     padding: 20px;
     background-color: #f8f9fa;
     gap: 20px; /* Add space between sections */
-}
-
-.top-section {
+  }
+  
+  .top-section {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
     gap: 20px; /* Space between instructor details and rating distribution */
-}
-
-.instructor-details {
+  }
+  
+  .instructor-details {
     flex: 1 1 300px; /* Grow and shrink with a base width */
     padding: 20px;
     background-color: #ffffff;
@@ -22,39 +22,39 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.instructor-details h1 {
+  }
+  
+  .instructor-details h1 {
     font-size: 2.5rem;
     margin-bottom: 15px;
-}
-
-.instructor-details p {
+  }
+  
+  .instructor-details p {
     font-size: 1.2rem;
     margin-bottom: 10px;
-}
-
-.instructor-stats {
+  }
+  
+  .instructor-stats {
     margin-top: 30px;
-}
-
-.instructor-stats h2 {
+  }
+  
+  .instructor-stats h2 {
     font-size: 2rem;
     margin-bottom: 15px;
-}
-
-.instructor-stats p {
+  }
+  
+  .instructor-stats p {
     font-size: 1.2rem;
     margin-bottom: 10px;
-}
-
-/* Rate button styling */
-.rate-button-container {
+  }
+  
+  /* Rate button styling */
+  .rate-button-container {
     margin-top: 20px;
     text-align: left; /* Align the button to the left */
-}
-
-.rate-button {
+  }
+  
+  .rate-button {
     padding: 10px 20px;
     font-size: 1.2rem;
     color: #ffffff;
@@ -63,117 +63,127 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.rate-button:hover {
+  }
+  
+  .rate-button:hover {
     background-color: #0056b3; /* Darker shade on hover */
-}
-
-.rating-distribution {
+  }
+  
+  .rating-distribution {
     flex: 1 1 300px; /* Grow and shrink with a base width */
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
-}
-
-.rating-distribution h2 {
+  }
+  
+  .rating-distribution h2 {
     font-size: 2rem;
     margin-bottom: 15px;
-}
-
-.chart-container {
+  }
+  
+  .chart-container {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
     width: 100%;
     max-width: 600px;
-}
-
-.chart-container canvas {
+  }
+  
+  .chart-container canvas {
     max-height: 500px;
-}
-
-.error-message {
+  }
+  
+  .error-message {
     color: red;
     font-size: 1.2rem;
     margin-top: 20px;
     font-weight: bold;
-}
-
-.reviews-section {
+  }
+  
+  .reviews-section {
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-}
-
-.reviews-section h2 {
+  }
+  
+  .reviews-section h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-}
-
-/* Container for the react-select dropdown */
-.course-select-container {
+  }
+  
+  /* Container for the react-select dropdown */
+  .course-select-container {
     margin-bottom: 20px;
-}
-
-/* Custom styles for react-select to match the overall design */
-.react-select-container {
+  }
+  
+  /* Custom styles for react-select to match the overall design */
+  .react-select-container {
     width: 100%;
-}
-
-.react-select__control {
+  }
+  
+  .react-select__control {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     min-height: 45px;
-}
-
-.react-select__control--is-focused {
+  }
+  
+  .react-select__control--is-focused {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.react-select__menu {
+  }
+  
+  .react-select__menu {
     z-index: 100;
-}
-
-.react-select__option {
+  }
+  
+  .react-select__option {
     padding: 10px;
     font-size: 1rem;
     color: #343a40;
-}
-
-.react-select__option--is-focused {
+  }
+  
+  .react-select__option--is-focused {
     background-color: #f0f8ff;
-}
-
-.react-select__option--is-selected {
+  }
+  
+  .react-select__option--is-selected {
     background-color: #007bff;
     color: #fff;
-}
-
-.reviews-container {
+  }
+  
+  .reviews-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.review-card {
+  }
+  
+  .review-card {
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.review-card h3 {
+    position: relative; /* Parent for absolute positioning */
+  }
+  
+  .review-card h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
-}
-
-.review-card p {
+  }
+  
+  .review-card p {
     font-size: 1rem;
     margin-bottom: 8px;
-}
+  }
+  
+  /* Container for the Report button */
+  .report-button-container {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    z-index: 2;
+  }
+  

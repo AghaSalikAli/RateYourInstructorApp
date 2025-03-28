@@ -3,6 +3,7 @@ import cors from 'cors';
 import departmentRoutes from './routes/departments.js'
 import instructorRoutes from './routes/instructors.js'
 import userroutes from './routes/users.js'
+import reviewroutes from './routes/reviews.js'
 import cookieParser from 'cookie-parser';
 
 const port = process.env.PORT || 8000;
@@ -21,5 +22,6 @@ app.use(cookieParser());
 app.use('/api/departments', departmentRoutes);
 app.use('/api/instructor/', instructorRoutes);
 app.use('/api/user', userroutes);
+app.use('/api/review', reviewroutes);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
